@@ -15,7 +15,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api/users", usersRoutes);
+app.use("/api/v1/users", usersRoutes);
 app.listen(process.env.PORT || 5000, () => {
-  console.log("Server is running");
+  console.log(`Server is running at port ${process.env.PORT || 5000}`);
 });
