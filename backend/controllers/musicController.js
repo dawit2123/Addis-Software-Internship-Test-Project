@@ -2,17 +2,12 @@ import asyncHandler from "express-async-handler";
 import { Music } from "../models/musicModel.js";
 import multer from "multer";
 import sharp from "sharp";
-// @desc    Get all Musics
-// @route   GET /api/Musics
-// @access  Public
+
 export const getMusics = asyncHandler(async (req, res) => {
   const data = await Music.find();
   res.status(200).send(data);
 });
 
-// @desc    Create single Music
-// @route   POST /api/Musics/
-// @access  Public
 export const createMusic = asyncHandler(async (req, res) => {
   let required_fields = ["title", "artistName", "duration"];
   let errors = [];
@@ -70,9 +65,6 @@ export const uploadImageFile = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc    Update single Music
-// @route   PATCH /api/Musics/:id
-// @access  Public
 export const updateMusic = asyncHandler(async (req, res) => {
   const data = await Music.findById(req.params.id);
 
@@ -90,9 +82,6 @@ export const updateMusic = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Delete single Music
-// @route   DELETE /api/Musics/:id
-// @access  Public
 export const deleteMusic = asyncHandler(async (req, res) => {
   const data = await Music.findById(req.params.id);
   if (!data) {
