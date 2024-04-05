@@ -14,7 +14,6 @@ export const getMusics = asyncHandler(async (req, res) => {
 // @route   POST /api/Musics/
 // @access  Public
 export const createMusic = asyncHandler(async (req, res) => {
-  console.log(req.body);
   let required_fields = ["title", "artistName", "duration"];
   let errors = [];
   required_fields.forEach((field) => {
@@ -96,11 +95,10 @@ export const updateMusic = asyncHandler(async (req, res) => {
 // @access  Public
 export const deleteMusic = asyncHandler(async (req, res) => {
   const data = await Music.findById(req.params.id);
-
   if (!data) {
     res.status(404).json({ message: "Music not found!" });
   } else {
-    await Music.remove();
-    res.status(200).json({ id: req.params.id, message: "Music deleted!" });
+    await Music.deleteOne({ _id: req.params.id });
+    res.status(200).json({ id: req.params._id, message: "Music deleted!" });
   }
 });
