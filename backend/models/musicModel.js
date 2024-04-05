@@ -5,6 +5,7 @@ const musicSchema = new mongoose.Schema(
     title: {
       type: String,
       required: [true, "A music must have a title"],
+      unique: [true, "A music with this title already exists"],
     },
     artistName: {
       type: String,
@@ -17,10 +18,6 @@ const musicSchema = new mongoose.Schema(
     coverImage: {
       type: String,
       required: [true, "A music must have a cover image"],
-    },
-    musicName: {
-      type: String,
-      required: [true, "A music must have a music name"],
     },
   },
   { timestamps: true }

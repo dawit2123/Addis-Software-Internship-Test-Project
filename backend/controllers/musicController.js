@@ -7,10 +7,7 @@ import sharp from "sharp";
 // @access  Public
 export const getMusics = asyncHandler(async (req, res) => {
   const data = await Music.find();
-  res.status(200).json({
-    status: "success",
-    data: data,
-  });
+  res.status(200).send(data);
 });
 
 // @desc    Create single Music
@@ -18,18 +15,11 @@ export const getMusics = asyncHandler(async (req, res) => {
 // @access  Public
 export const createMusic = asyncHandler(async (req, res) => {
   console.log(req.body);
-  let required_fields = ["title", "artistName", "duration", "musicName"];
+  let required_fields = ["title", "artistName", "duration"];
   let errors = [];
   required_fields.forEach((field) => {
     if (!req.body[field]) errors.push(field + " is required!");
   });
-  console.log(req.body);
-  req.file.filename = `${req.body.title.replace(" ", "-")}-music.jpeg`;
-  await sharp(req.file.buffer)
-    .resize(500, 500)
-    .toFormat("jpeg")
-    .jpeg({ quality: 90 })
-    .toFile(`public/img/music/${req.file.filename}.jpeg`);
 
   if (errors.length !== 0) {
     res.status(400).json({ message: errors });
@@ -38,21 +28,29 @@ export const createMusic = asyncHandler(async (req, res) => {
       title: req.body.title,
       artistName: req.body.artistName,
       duration: req.body.duration,
-      coverImage: req.file.filename,
-      musicName: req.body.musicName,
+      coverImage: req.file.imageName,
     });
     res.status(200).json(data);
   }
 });
 
-export const uploadFile = asyncHandler(async (req, res, next) => {
+export const processImage = asyncHandler(async (req, res, next) => {
+  req.file.imageName = `${Date.now()}-music`;
+  await sharp(req.file.buffer)
+    .resize(3024, 4032)
+    .toFormat("jpeg")
+    .jpeg({ quality: 90 })
+    .toFile(`public/img/music/${req.file.imageName}.jpeg`);
+  next();
+});
+export const uploadImageFile = asyncHandler(async (req, res, next) => {
   const multerStorage = multer.memoryStorage();
   const multerFilter = (req, file, cb) => {
     if (file.mimetype.startsWith("image")) {
       cb(null, true);
     } else {
       cb(
-        new AppError("Not an image! Please upload only music images.", 400),
+        new AppError("Not an image! Please upload only music image.", 400),
         false
       );
     }
@@ -72,6 +70,7 @@ export const uploadFile = asyncHandler(async (req, res, next) => {
     next();
   });
 });
+
 // @desc    Update single Music
 // @route   PATCH /api/Musics/:id
 // @access  Public
