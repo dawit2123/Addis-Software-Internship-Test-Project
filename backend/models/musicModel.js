@@ -12,7 +12,7 @@ const musicSchema = new mongoose.Schema(
       required: [true, "A music must have an artist name"],
     },
     duration: {
-      type: Number,
+      type: String,
       required: [true, "A music must have a duration"],
     },
     coverImage: {
