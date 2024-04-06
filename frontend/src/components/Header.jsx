@@ -29,7 +29,7 @@ const Header = ({ handleSearch }) => {
   const { darkMode } = useSelector((state) => state.general);
   const dispatch = useDispatch();
   const headerStyle = css`
-    background-color: ${darkMode ? "#404040" : "#f3f4f6"};
+    background-image: linear-gradient(to right, #12c2e9, #c471ed, #f64f59);
     color: ${darkMode ? "white" : "#000"};
     padding: 15px;
     border-bottom: 1px white solid;
