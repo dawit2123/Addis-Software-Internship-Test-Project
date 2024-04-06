@@ -1,6 +1,6 @@
 import express from "express";
-import { uploadImageFile } from "../controllers/musicController.js";
-import { processImage } from "../controllers/musicController.js";
+import { uploadFiles } from "../controllers/musicController.js";
+import { processFiles } from "../controllers/musicController.js";
 const router = express.Router();
 
 import {
@@ -10,10 +10,7 @@ import {
   updateMusic,
 } from "../controllers/musicController.js";
 
-router
-  .route("/")
-  .get(getMusics)
-  .post(uploadImageFile, processImage, createMusic);
+router.route("/").get(getMusics).post(uploadFiles, processFiles, createMusic);
 router.route("/:id").patch(updateMusic).delete(deleteMusic);
 
 export default router;

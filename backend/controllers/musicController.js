@@ -2,7 +2,7 @@ import asyncHandler from "express-async-handler";
 import { Music } from "../models/musicModel.js";
 import multer from "multer";
 import sharp from "sharp";
-
+import fs from "fs";
 export const getMusics = asyncHandler(async (req, res) => {
   const data = await Music.find();
   res.status(200).send(data);
@@ -22,40 +22,60 @@ export const createMusic = asyncHandler(async (req, res) => {
       title: req.body.title,
       artistName: req.body.artistName,
       duration: req.body.duration,
-      coverImage: req.file.imageName,
+      coverImage: req.files["coverImage"].originalname,
+      audioFile: req.files["audioFile"].originalname,
     });
     res.status(200).json(data);
   }
 });
 
-export const processImage = asyncHandler(async (req, res, next) => {
-  req.file.imageName = `${Date.now()}-music`;
-  await sharp(req.file.buffer)
+export const processFiles = asyncHandler(async (req, res, next) => {
+  req.files["coverImage"].originalname = `${Date.now()}-music`;
+  req.files["audioFile"].originalname = `${Date.now()}-audio.mp3`;
+  await sharp(req.files["coverImage"][0].buffer)
     .resize(3024, 4032)
     .toFormat("jpeg")
     .jpeg({ quality: 90 })
-    .toFile(`public/img/music/${req.file.imageName}.jpeg`);
+    .toFile(`public/img/music/${req.files["coverImage"].originalname}.jpeg`);
+  // Convert audio buffer to file and store it
+  const audioFilePath = `public/audio/music/${req.files["audioFile"].originalname}`;
+  fs.writeFile(
+    audioFilePath,
+    req.files["audioFile"][0].buffer,
+    "binary",
+    (err) => {
+      if (err) {
+        console.error("Error writing audio file:", err);
+        return next(err);
+      }
+      next();
+    }
+  );
   next();
 });
-export const uploadImageFile = asyncHandler(async (req, res, next) => {
+export const uploadFiles = asyncHandler(async (req, res, next) => {
   const multerStorage = multer.memoryStorage();
   const multerFilter = (req, file, cb) => {
-    if (file.mimetype.startsWith("image")) {
+    if (
+      file.mimetype.startsWith("image") ||
+      file.mimetype.startsWith("audio")
+    ) {
       cb(null, true);
     } else {
-      cb(
-        new AppError("Not an image! Please upload only music image.", 400),
-        false
-      );
+      cb(new AppError("Please upload only image or audio files.", 400), false);
     }
   };
 
   const upload = multer({
     storage: multerStorage,
     fileFilter: multerFilter,
-  }).single("coverImage");
+  }).fields([
+    { name: "coverImage", maxCount: 1 },
+    { name: "audioFile", maxCount: 1 },
+  ]);
 
   upload(req, res, function (err) {
+    console.log(req.files["coverImage"]);
     if (err instanceof multer.MulterError) {
       return res.status(500).json(err);
     } else if (err) {
