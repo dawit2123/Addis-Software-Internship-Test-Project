@@ -81,22 +81,17 @@ const MusicCardList = ({ searchQuery }) => {
   useEffect(() => {
     dispatch(getMusicsFetch());
   }, []);
-
   useEffect(() => {
     if (searchQuery === "") {
       setDisplay(musics);
     } else {
-      if (searchQuery == []) {
-        setDisplay([]);
-      } else {
-        const lowercaseQuery = searchQuery.toLowerCase();
-        const new_list = musics.filter(
-          (item) =>
-            item.title.toLowerCase().includes(lowercaseQuery) ||
-            item.artist.toLowerCase().includes(lowercaseQuery)
-        );
-        setDisplay(new_list);
-      }
+      const lowercaseQuery = searchQuery.toLowerCase();
+      const new_list = musics.filter(
+        (item) =>
+          item.title.toLowerCase().includes(lowercaseQuery) ||
+          item.artistName.toLowerCase().includes(lowercaseQuery)
+      );
+      setDisplay(new_list);
     }
   }, [searchQuery, musics]);
   return (

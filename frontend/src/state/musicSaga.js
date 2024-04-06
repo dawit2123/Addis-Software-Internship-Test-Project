@@ -28,7 +28,6 @@ function* DeleteMusic(action) {
     yield call(() =>
       axios.delete(`http://localhost:5000/api/v1/music/${action.payload}`)
     );
-    navigate("/");
     yield put(deleteMusicSuccess());
   } catch (error) {
     console.log(error);
@@ -43,7 +42,6 @@ function* EditMusic(action) {
         action.payload
       );
     });
-    navigate("/");
     yield put(editMusicSucces(res.data));
   } catch (error) {
     console.log(error);
