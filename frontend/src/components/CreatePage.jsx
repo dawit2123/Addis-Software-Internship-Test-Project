@@ -22,6 +22,7 @@ const CreatePage = () => {
     artistName: "",
     duration: "",
     coverImage: null, // Initialize coverImage as null
+    audioFile: null,
   });
 
   const handleInputChange = (e) => {
@@ -39,7 +40,7 @@ const CreatePage = () => {
     formDataToSend.append("artistName", formData.artistName);
     formDataToSend.append("duration", formData.duration);
     formDataToSend.append("coverImage", formData.coverImage);
-
+    formDataToSend.append("audioFile", formData.audioFile);
     dispatch(addMusic(formDataToSend));
     navigate("/");
   };
@@ -99,6 +100,21 @@ const CreatePage = () => {
             setFormData({
               ...formData,
               coverImage: e.target.files[0],
+            });
+          }}
+        />
+      </Box>
+      <Box css={inputStyle}>
+        <Label htmlFor="audioFile">Audio File:</Label>
+        <Input
+          type="file"
+          name="audioFile"
+          id="audioFile"
+          onChange={(e) => {
+            console.log(e.target.files);
+            setFormData({
+              ...formData,
+              audioFile: e.target.files[0],
             });
           }}
         />
