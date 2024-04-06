@@ -13,6 +13,7 @@ import {
 import MusicDetail from "./components/MusicDetail";
 import EditPage from "./components/EditPage";
 import CreatePage from "./components/CreatePage";
+import AboutPage from "./components/about";
 
 function App() {
   const musics = useSelector((state) => state.musics.musics);
@@ -33,6 +34,7 @@ function App() {
         <Route path="/:_id" element={<MusicDetail />} />
         <Route path="/:_id/edit" element={<EditPage />} />
         <Route path="/add" element={<CreatePage />} />
+        <Route path="/about" element={<AboutPage />} />
       </Route>
     )
   );
