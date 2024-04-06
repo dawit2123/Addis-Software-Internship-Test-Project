@@ -9,7 +9,7 @@ function Home({ searchQuery }) {
   const customStyle = css`
     padding: 20px;
     width: 100%;
-    background-color: ${darkMode ? "black" : "white"};
+    background-color: ${darkMode ? "#404040" : "white"};
     color: ${darkMode ? "white" : "black"};
   `;
   return (

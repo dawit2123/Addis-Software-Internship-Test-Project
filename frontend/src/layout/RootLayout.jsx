@@ -13,7 +13,7 @@ const RootLayout = ({ handleSearch }) => {
       <Header handleSearch={handleSearch} />
       <Flex
         css={css`
-          background-color: ${darkMode ? "black" : "white"};
+          background-color: ${darkMode ? "#404040" : "white"};
         `}
         flex={[1, 3]}
       >

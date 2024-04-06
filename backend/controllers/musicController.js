@@ -7,7 +7,6 @@ export const getMusics = asyncHandler(async (req, res) => {
   const data = await Music.find();
   res.status(200).send(data);
 });
-
 export const createMusic = asyncHandler(async (req, res) => {
   let required_fields = ["title", "artistName", "duration"];
   let errors = [];
@@ -104,6 +103,21 @@ export const updateMusic = asyncHandler(async (req, res) => {
 
 export const deleteMusic = asyncHandler(async (req, res) => {
   const data = await Music.findById(req.params.id);
+  const audioFilePath = `public/audio/music/${data.audioFile}`;
+  const imageFilePath = `public/img/music/${data.coverImage}.jpeg`;
+
+  fs.unlink(audioFilePath, (err) => {
+    if (err) {
+      console.error("Error deleting the file", err);
+      return;
+    }
+  });
+  fs.unlink(imageFilePath, (err) => {
+    if (err) {
+      console.error("Error deleting the file", err);
+      return;
+    }
+  });
   if (!data) {
     res.status(404).json({ message: "Music not found!" });
   } else {

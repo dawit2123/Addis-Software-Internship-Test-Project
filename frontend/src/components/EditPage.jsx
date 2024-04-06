@@ -28,7 +28,7 @@ const EditPage = () => {
     width: 100%;
     max-width: 400px;
     margin: 0 auto;
-    background: ${darkMode ? "black" : "white"};
+    background: ${darkMode ? "#404040" : "white"};
     color: ${darkMode ? "white" : "black"};
   `;
   const inputStyle = css`

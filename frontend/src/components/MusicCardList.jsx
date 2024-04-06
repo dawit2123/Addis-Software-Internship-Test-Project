@@ -39,7 +39,7 @@ const Card = ({ artist, trackName, coverImage }) => {
     padding: 20px;
     margin: 10px;
     width: 250px;
-    background-color: ${darkMode ? "black" : "white"};
+    background-color: ${darkMode ? "#404040" : "white"};
     color: ${darkMode ? "white" : "black"};
     transition: box-shadow 0.5s ease-in-out;
     transition: width 0.5s ease-in-out;

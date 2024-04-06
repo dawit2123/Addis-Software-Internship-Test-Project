@@ -29,7 +29,7 @@ const Header = ({ handleSearch }) => {
   const { darkMode } = useSelector((state) => state.general);
   const dispatch = useDispatch();
   const headerStyle = css`
-    background-color: ${darkMode ? "black" : "#f3f4f6"};
+    background-color: ${darkMode ? "#404040" : "#f3f4f6"};
     color: ${darkMode ? "white" : "#000"};
     padding: 15px;
     border-bottom: 1px white solid;
@@ -77,7 +77,7 @@ const Header = ({ handleSearch }) => {
           <Button
             css={css`
               padding: 0;
-              background-color: ${darkMode ? "black" : "white"};
+              background-color: ${darkMode ? "#404040" : "white"};
             `}
           >
             <FaPlusCircle
