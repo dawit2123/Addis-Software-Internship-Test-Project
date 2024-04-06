@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Box, Button, Flex, Heading, Text } from "rebass";
 import { css } from "@emotion/react";
@@ -12,25 +12,19 @@ import { useDispatch, useSelector } from "react-redux";
 import Spinner from "react-spinner";
 import { deleteMusic, editMusic, getMusicsFetch } from "../state/musicState";
 import axios from "axios";
+
 const MusicDetail = () => {
   const { _id } = useParams();
+  const audioRef = useRef(new Audio());
 
-  const [isPlaying, setPlaying] = useState(true);
+  const [isPlaying, setPlaying] = useState(false);
 
   const { musics, isLoading } = useSelector((state) => state.musics);
-
   const { darkMode } = useSelector((state) => state.general);
 
-  const music = musics.filter((music) => music._id === _id)[0];
+  const music = musics.find((music) => music._id === _id);
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!music) {
-      dispatch(getMusicsFetch());
-    }
-  }, [dispatch, music]);
 
   const handleDelete = () => {
     dispatch(deleteMusic(_id));
@@ -38,8 +32,19 @@ const MusicDetail = () => {
   };
 
   const backgroundImagePosition = `http://localhost:5000/img/music/${music.coverImage}.jpeg`;
-
   const backgroundImageUrl = `url(${backgroundImagePosition})`;
+  const musicLocation = `http://localhost:5000/audio/music/${music.audioFile}`;
+
+  useEffect(() => {
+    if (!music) {
+      dispatch(getMusicsFetch());
+    }
+    return () => {
+      // Cleanup audio when component unmounts
+      audioRef.current.pause();
+      audioRef.current.src = musicLocation;
+    };
+  }, [dispatch, music]);
 
   const gradientBackground = `
     linear-gradient(
@@ -91,7 +96,7 @@ const MusicDetail = () => {
             <Box css={styles}>
               <Flex flexDirection="column" alignItems="center">
                 <Button
-                  onClick={() => handleDelete()}
+                  onClick={handleDelete}
                   color={"red"}
                   fontWeight={"bold"}
                   style={{
@@ -148,16 +153,22 @@ const MusicDetail = () => {
                       />
                     </Link>
                     {isPlaying ? (
-                      <FaPlay
-                        style={{ color: `${darkMode ? "white" : "black"}` }}
-                        size={50}
-                        onClick={() => setPlaying(!isPlaying)}
-                      />
-                    ) : (
                       <FaPause
                         style={{ color: `${darkMode ? "white" : "black"}` }}
                         size={50}
-                        onClick={() => setPlaying(!isPlaying)}
+                        onClick={() => {
+                          audioRef.current.pause();
+                          setPlaying(false);
+                        }}
+                      />
+                    ) : (
+                      <FaPlay
+                        style={{ color: `${darkMode ? "white" : "black"}` }}
+                        size={50}
+                        onClick={() => {
+                          audioRef.current.play();
+                          setPlaying(true);
+                        }}
                       />
                     )}
                     <Link
