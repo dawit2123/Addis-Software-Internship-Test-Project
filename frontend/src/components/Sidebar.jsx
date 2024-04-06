@@ -54,19 +54,6 @@ const Sidebar = () => {
       <Box css={sidebarItemStyle} onClick={handleAboutBoxClick}>
         <Text>About</Text>
       </Box>
-
-      <Box css={sectionTitleStyle}>
-        <Text fontWeight="bold">Playlists</Text>
-      </Box>
-      <Box css={sidebarItemStyle}>
-        <Text>Playlist 1</Text>
-      </Box>
-      <Box css={sidebarItemStyle}>
-        <Text>Playlist 2</Text>
-      </Box>
-      <Box css={sidebarItemStyle}>
-        <Text>Playlist 3</Text>
-      </Box>
       <Box
         css={css`
           display: flex;

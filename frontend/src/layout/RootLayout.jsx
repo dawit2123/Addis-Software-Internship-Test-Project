@@ -15,7 +15,8 @@ const RootLayout = ({ handleSearch }) => {
         css={css`
           background-color: ${darkMode ? "black" : "white"};
         `}
-        flex={[1, 3]}>
+        flex={[1, 3]}
+      >
         <Sidebar />
         <Outlet />
       </Flex>
