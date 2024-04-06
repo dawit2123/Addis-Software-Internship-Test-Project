@@ -6,6 +6,7 @@ import { Input, Label } from "@rebass/forms";
 import { useDispatch, useSelector } from "react-redux";
 import { addMusic } from "../state/musicState";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const inputStyle = css`
   width: 100%;
@@ -18,9 +19,9 @@ const CreatePage = () => {
 
   const [formData, setFormData] = useState({
     title: "",
-    artist: "",
+    artistName: "",
     duration: "",
-    // coverImage: "/album-cover.jpg",
+    coverImage: null, // Initialize coverImage as null
   });
 
   const handleInputChange = (e) => {
@@ -33,7 +34,13 @@ const CreatePage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addMusic(formData));
+    const formDataToSend = new FormData();
+    formDataToSend.append("title", formData.title);
+    formDataToSend.append("artistName", formData.artistName);
+    formDataToSend.append("duration", formData.duration);
+    formDataToSend.append("coverImage", formData.coverImage);
+
+    dispatch(addMusic(formDataToSend));
     navigate("/");
   };
 
@@ -47,7 +54,11 @@ const CreatePage = () => {
   `;
 
   return (
-    <Box as="form" css={formStyle} onSubmit={handleSubmit}>
+    <form
+      css={formStyle}
+      onSubmit={handleSubmit}
+      encType="multipart/form-data" // Corrected attribute name
+    >
       <Box css={inputStyle}>
         <Label htmlFor="title">Title:</Label>
         <Input
@@ -62,9 +73,9 @@ const CreatePage = () => {
         <Label htmlFor="artist">Artist:</Label>
         <Input
           type="text"
-          name="artist"
+          name="artistName"
           id="artist"
-          value={formData.artist}
+          value={formData.artistName}
           onChange={handleInputChange}
         />
       </Box>
@@ -78,11 +89,24 @@ const CreatePage = () => {
           onChange={handleInputChange}
         />
       </Box>
+      <Box css={inputStyle}>
+        <Label htmlFor="coverImage">Cover Image:</Label>
+        <Input
+          type="file"
+          name="coverImage"
+          id="coverImage"
+          onChange={(e) => {
+            setFormData({
+              ...formData,
+              coverImage: e.target.files[0],
+            });
+          }}
+        />
+      </Box>
       <Button type="submit" color={"white"} backgroundColor={"green"}>
         Save
       </Button>
-    </Box>
+    </form>
   );
 };
-
 export default CreatePage;

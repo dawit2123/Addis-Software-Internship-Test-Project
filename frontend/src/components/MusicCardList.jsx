@@ -11,7 +11,6 @@ const artistNameStyles = css`
   margin-top: 10px;
   font-weight: bold;
 `;
-
 const playButtonStyle = css`
   box-shadow: 0 10px 14px rgba(0, 0, 0, 0.5);
   border-radius: 50%;
@@ -51,7 +50,7 @@ const Card = ({ artist, trackName, coverImage }) => {
   return (
     <Box css={cardStyles}>
       <img
-        src={coverImage}
+        src={`http://localhost:5000/img/music/${coverImage}.jpeg`}
         alt={`${trackName} Cover`}
         css={css`
           width: 100%;
@@ -87,19 +86,23 @@ const MusicCardList = ({ searchQuery }) => {
     if (searchQuery === "") {
       setDisplay(musics);
     } else {
-      const lowercaseQuery = searchQuery.toLowerCase();
-      const new_list = musics.filter(
-        (item) =>
-          item.title.toLowerCase().includes(lowercaseQuery) ||
-          item.artist.toLowerCase().includes(lowercaseQuery)
-      );
-      setDisplay(new_list);
+      if (searchQuery == []) {
+        setDisplay([]);
+      } else {
+        const lowercaseQuery = searchQuery.toLowerCase();
+        const new_list = musics.filter(
+          (item) =>
+            item.title.toLowerCase().includes(lowercaseQuery) ||
+            item.artist.toLowerCase().includes(lowercaseQuery)
+        );
+        setDisplay(new_list);
+      }
     }
   }, [searchQuery, musics]);
   return (
     <Flex flexWrap={"wrap"} justifyContent={"space-around"}>
       {display.map((music) => (
-        <Link css={textStyle} to={`/${music.id}`} key={music.id}>
+        <Link css={textStyle} to={`/${music._id}`} key={music._id}>
           <Card
             artist={music.artist}
             trackName={music.title}

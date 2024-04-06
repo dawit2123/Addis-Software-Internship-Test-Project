@@ -8,7 +8,7 @@ import {
 import axios from "axios";
 
 function* GetMusicsFetch() {
-  const musics = yield call(() => fetch("https://musicsapi.vercel.app/musics"));
+  const musics = yield call(() => fetch("http://localhost:5000/api/v1/music"));
   const formattedMusic = yield musics.json();
   yield put(getMusicsSuccess(formattedMusic));
 }
@@ -16,7 +16,7 @@ function* GetMusicsFetch() {
 function* AddMusic(action) {
   try {
     const res = yield call(() =>
-      axios.post("https://musicsapi.vercel.app/musics", action.payload)
+      axios.post("http://localhost:5000/api/v1/music/", action.payload)
     );
     yield put(addMusicSuccess(res.data));
   } catch (error) {
@@ -26,8 +26,9 @@ function* AddMusic(action) {
 function* DeleteMusic(action) {
   try {
     yield call(() =>
-      axios.delete(`https://musicsapi.vercel.app/musics/${action.payload}`)
+      axios.delete(`http://localhost:5000/api/v1/music/${action.payload}`)
     );
+    navigate("/");
     yield put(deleteMusicSuccess());
   } catch (error) {
     console.log(error);
@@ -37,12 +38,12 @@ function* DeleteMusic(action) {
 function* EditMusic(action) {
   try {
     const res = yield call(() => {
-      console.log(action.payload);
       return axios.patch(
-        `https://musicsapi.vercel.app/musics/${action.payload.id}`,
+        `http://localhost:5000/api/v1/music/${action.payload.id}`,
         action.payload
       );
     });
+    navigate("/");
     yield put(editMusicSucces(res.data));
   } catch (error) {
     console.log(error);

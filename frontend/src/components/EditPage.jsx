@@ -6,12 +6,15 @@ import { Input, Label } from "@rebass/forms";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { editMusic, getMusicsFetch } from "../state/musicState";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const EditPage = () => {
-  const { id } = useParams();
+  const navigate = useNavigate();
+  const { _id } = useParams();
   const { musics, isLoading } = useSelector((state) => state.musics);
 
-  const music = musics.filter((music) => music.id == id)[0];
+  const music = musics.filter((music) => music._id == _id)[0];
 
   const dispatch = useDispatch();
 
@@ -34,11 +37,10 @@ const EditPage = () => {
   `;
 
   const [formData, setFormData] = useState({
-    id: id,
+    id: _id,
     title: music ? music.title : "",
-    artist: music ? music.artist : "",
+    artist: music ? music.artistName : "",
     duration: music ? music.duration : "",
-    // coverImage: "/album-cover.jpg",
   });
 
   const handleInputChange = (e) => {
@@ -52,6 +54,7 @@ const EditPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(editMusic(formData));
+    navigate("/");
   };
 
   return (

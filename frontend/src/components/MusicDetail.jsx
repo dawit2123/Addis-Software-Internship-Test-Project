@@ -11,9 +11,9 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "react-spinner";
 import { deleteMusic, editMusic, getMusicsFetch } from "../state/musicState";
-
+import axios from "axios";
 const MusicDetail = () => {
-  const { id } = useParams();
+  const { _id } = useParams();
 
   const [isPlaying, setPlaying] = useState(true);
 
@@ -21,8 +21,7 @@ const MusicDetail = () => {
 
   const { darkMode } = useSelector((state) => state.general);
 
-  const music = musics.filter((music) => music.id == id)[0];
-
+  const music = musics.filter((music) => music._id === _id)[0];
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -34,11 +33,13 @@ const MusicDetail = () => {
   }, [dispatch, music]);
 
   const handleDelete = () => {
-    dispatch(deleteMusic(id));
+    dispatch(deleteMusic(_id));
     navigate("/");
   };
 
-  const backgroundImageUrl = "url(/album-cover.jpg)";
+  const backgroundImagePosition = `http://localhost:5000/img/music/${music.coverImage}.jpeg`;
+
+  const backgroundImageUrl = `url(${backgroundImagePosition})`;
 
   const gradientBackground = `
     linear-gradient(
@@ -102,7 +103,7 @@ const MusicDetail = () => {
                 >
                   Delete
                 </Button>
-                <Link to={`/${id}/edit`}>
+                <Link to={`/${_id}/edit`}>
                   <Button
                     color={"green"}
                     fontWeight={"bold"}
@@ -138,7 +139,9 @@ const MusicDetail = () => {
                     justifyContent={"space-around"}
                     style={{ marginTop: "30px" }}
                   >
-                    <Link to={id - 1 > 0 ? `/${parseInt(id) - 1}` : `/${id}`}>
+                    <Link
+                      to={_id - 1 > 0 ? `/${parseInt(_id) - 1}` : `/${_id}`}
+                    >
                       <FaArrowAltCircleLeft
                         style={{ color: `${darkMode ? "white" : "black"}` }}
                         size={50}
@@ -159,7 +162,9 @@ const MusicDetail = () => {
                     )}
                     <Link
                       to={
-                        id < musics.length ? `/${parseInt(id) + 1}` : `/${id}`
+                        _id < musics.length
+                          ? `/${parseInt(_id) + 1}`
+                          : `/${_id}`
                       }
                     >
                       <FaArrowCircleRight

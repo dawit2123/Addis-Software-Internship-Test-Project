@@ -35,7 +35,7 @@ const musicState = createSlice({
     },
     editMusicSucces: (state, action) => {
       state.musics = state.musics.map((music) => {
-        if (music.id === action.payload.id) {
+        if (music.id === action.payload._id) {
           return {
             ...music,
             title: action.payload.title,

@@ -28,11 +28,11 @@ function App() {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path='/' element={<RootLayout handleSearch={handleSearch} />}>
+      <Route path="/" element={<RootLayout handleSearch={handleSearch} />}>
         <Route index element={<Home searchQuery={searchQuery} />} />
-        <Route path='/:id' element={<MusicDetail />} />
-        <Route path='/:id/edit' element={<EditPage />} />
-        <Route path='/add' element={<CreatePage />} />
+        <Route path="/:_id" element={<MusicDetail />} />
+        <Route path="/:_id/edit" element={<EditPage />} />
+        <Route path="/add" element={<CreatePage />} />
       </Route>
     )
   );
