@@ -12,6 +12,10 @@ This Project is a React Test Project for Addis Software. It is a simple React Ap
 - Get Music
 - Search music by music title and music author
 
+# Demo Record of the Addis Music project done for the Addis Internship project
+
+[![Addis Music Project Demo](https://drive.google.com/file/d/1qgUsUfLqoclfEpmAVJAaz1vAJk4FGwEE/view)](https://www.youtube.com/watch?v=Ax3iQdo81f0)
+
 ## Project Links
 
 You can access the Project using this link [Project Link](https://addis-music-web-app.onrender.com/).
