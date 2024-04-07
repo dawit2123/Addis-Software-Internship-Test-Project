@@ -3,6 +3,7 @@ import { Music } from "../models/musicModel.js";
 import multer from "multer";
 import sharp from "sharp";
 import fs from "fs";
+
 export const getMusics = asyncHandler(async (req, res) => {
   const data = await Music.find();
   res.status(200).send(data);
@@ -13,7 +14,6 @@ export const createMusic = asyncHandler(async (req, res) => {
   required_fields.forEach((field) => {
     if (!req.body[field]) errors.push(field + " is required!");
   });
-
   if (errors.length !== 0) {
     res.status(400).json({ message: errors });
   } else {
@@ -35,9 +35,11 @@ export const processFiles = asyncHandler(async (req, res, next) => {
     .resize(3024, 4032)
     .toFormat("jpeg")
     .jpeg({ quality: 90 })
-    .toFile(`public/img/music/${req.files["coverImage"].originalname}.jpeg`);
+    .toFile(
+      `${req.homedir}/public/img/music/${req.files["coverImage"].originalname}.jpeg`
+    );
   // Convert audio buffer to file and store it
-  const audioFilePath = `public/audio/music/${req.files["audioFile"].originalname}`;
+  const audioFilePath = `${req.homedir}/public/audio/music/${req.files["audioFile"].originalname}`;
   fs.writeFile(
     audioFilePath,
     req.files["audioFile"][0].buffer,
@@ -47,7 +49,6 @@ export const processFiles = asyncHandler(async (req, res, next) => {
         console.error("Error writing audio file:", err);
         return next(err);
       }
-      next();
     }
   );
   next();
@@ -73,12 +74,11 @@ export const uploadFiles = asyncHandler(async (req, res, next) => {
     { name: "audioFile", maxCount: 1 },
   ]);
 
-  upload(req, res, function (err) {
-    console.log(req.files["coverImage"]);
+  upload(req, null, function (err) {
     if (err instanceof multer.MulterError) {
-      return res.status(500).json(err);
+      console.log(err);
     } else if (err) {
-      return res.status(500).json(err);
+      console.log(err);
     }
     next();
   });
@@ -103,8 +103,8 @@ export const updateMusic = asyncHandler(async (req, res) => {
 
 export const deleteMusic = asyncHandler(async (req, res) => {
   const data = await Music.findById(req.params.id);
-  const audioFilePath = `public/audio/music/${data.audioFile}`;
-  const imageFilePath = `public/img/music/${data.coverImage}.jpeg`;
+  const audioFilePath = `${req.homedir}/public/audio/music/${data.audioFile}`;
+  const imageFilePath = `${req.homedir}/public/img/music/${data.coverImage}.jpeg`;
 
   fs.unlink(audioFilePath, (err) => {
     if (err) {

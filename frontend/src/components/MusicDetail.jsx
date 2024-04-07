@@ -31,9 +31,13 @@ const MusicDetail = () => {
     navigate("/");
   };
 
-  const backgroundImagePosition = `http://localhost:5000/img/music/${music.coverImage}.jpeg`;
+  const backgroundImagePosition = `${
+    import.meta.env.VITE_BACKEND_URL
+  }/img/music/${music.coverImage}.jpeg`;
   const backgroundImageUrl = `url(${backgroundImagePosition})`;
-  const musicLocation = `http://localhost:5000/audio/music/${music.audioFile}`;
+  const musicLocation = `${import.meta.env.VITE_BACKEND_URL}/audio/music/${
+    music.audioFile
+  }`;
 
   useEffect(() => {
     if (!music) {
@@ -43,6 +47,7 @@ const MusicDetail = () => {
       // Cleanup audio when component unmounts
       audioRef.current.pause();
       audioRef.current.src = musicLocation;
+      audioRef.current.load();
     };
   }, [dispatch, music]);
 

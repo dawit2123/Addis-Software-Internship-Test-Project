@@ -8,7 +8,9 @@ import {
 import axios from "axios";
 
 function* GetMusicsFetch() {
-  const musics = yield call(() => fetch("http://localhost:5000/api/v1/music"));
+  const musics = yield call(() =>
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/music`)
+  );
   const formattedMusic = yield musics.json();
   yield put(getMusicsSuccess(formattedMusic));
 }
@@ -16,7 +18,10 @@ function* GetMusicsFetch() {
 function* AddMusic(action) {
   try {
     const res = yield call(() =>
-      axios.post("http://localhost:5000/api/v1/music/", action.payload)
+      axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/music/`,
+        action.payload
+      )
     );
     yield put(addMusicSuccess(res.data));
   } catch (error) {
@@ -26,7 +31,9 @@ function* AddMusic(action) {
 function* DeleteMusic(action) {
   try {
     yield call(() =>
-      axios.delete(`http://localhost:5000/api/v1/music/${action.payload}`)
+      axios.delete(
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/music/${action.payload}`
+      )
     );
     yield put(deleteMusicSuccess());
   } catch (error) {
@@ -38,7 +45,7 @@ function* EditMusic(action) {
   try {
     const res = yield call(() => {
       return axios.patch(
-        `http://localhost:5000/api/v1/music/${action.payload.id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/music/${action.payload.id}`,
         action.payload
       );
     });
