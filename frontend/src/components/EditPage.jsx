@@ -54,6 +54,7 @@ const EditPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(editMusic(formData));
+
     navigate("/");
   };
 

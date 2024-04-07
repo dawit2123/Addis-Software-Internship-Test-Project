@@ -43,6 +43,7 @@ const musicState = createSlice({
         }
         return music;
       });
+
       state.isLoading = false;
     },
     getMusicError: (state, action) => {

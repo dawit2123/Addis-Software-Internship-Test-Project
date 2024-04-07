@@ -9,16 +9,15 @@ import {
   RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
+  useSearchParams,
 } from "react-router-dom";
 import MusicDetail from "./components/MusicDetail";
 import EditPage from "./components/EditPage";
 import CreatePage from "./components/CreatePage";
 import AboutPage from "./components/about";
-
 function App() {
   const musics = useSelector((state) => state.musics.musics);
   const dispatch = useDispatch();
-
   const [searchQuery, setSearchquery] = useState("");
   const handleSearch = (substring) => {
     setSearchquery(substring);
@@ -26,7 +25,6 @@ function App() {
   useEffect(() => {
     dispatch(getMusicsFetch());
   }, [dispatch]);
-
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<RootLayout handleSearch={handleSearch} />}>
