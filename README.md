@@ -11,6 +11,7 @@ This Project is a React Test Project for Addis Software. It is a simple React Ap
 - Delete Music
 - Get Music
 - Search music by music title and music author
+- Cover Image computation and optimization in the backend like cropping the image, changing the type, reducing the size and others
 
 # Demo Record of the Addis Music project done for the Addis Internship project. Click on the image to view the live record.
 
