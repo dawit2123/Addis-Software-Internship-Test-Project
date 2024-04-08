@@ -23,7 +23,7 @@ You can access the backend api of the project [Backend Api](https://addis-music-
 
 You can access the Project using this link [Project Link](https://addis-music-web-app.onrender.com/).
 
-This Project uses as a backend [Github](https://github.com/dawit2123/Addis-Software-Internship-Test-Project)
+Full Source code is available at [Github](https://github.com/dawit2123/Addis-Software-Internship-Test-Project)
 
 ### ✨ [Demo](https://addis-music-web-app.onrender.com/)
 
