@@ -3,6 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   musics: [],
   isLoading: false,
+  isLoadingState: true,
+  isUpdate: false,
   isError: "",
 };
 
@@ -16,22 +18,31 @@ const musicState = createSlice({
     getMusicsSuccess: (state, action) => {
       state.musics = action.payload;
       state.isLoading = false;
+      state.isUpdate = true;
+      state.isLoadingState = false;
     },
     addMusic: (state, action) => {
       state.isLoading = true;
+      state.isLoadingState = true;
     },
     addMusicSuccess: (state, action) => {
       state.musics.push(action.payload);
       state.isLoading = false;
+      state.isUpdate = true;
+      state.isLoadingState = false;
     },
     deleteMusic: (state, action) => {
+      state.isLoadingState = true;
       state.isLoading = true;
     },
     deleteMusicSuccess: (state, action) => {
       state.isLoading = false;
+      state.isUpdate = true;
+      state.isLoadingState = false;
     },
     editMusic: (state, action) => {
       state.isLoading = true;
+      state.isLoadingState = true;
     },
     editMusicSucces: (state, action) => {
       state.musics = state.musics.map((music) => {
@@ -45,6 +56,8 @@ const musicState = createSlice({
       });
 
       state.isLoading = false;
+      state.isUpdate = true;
+      state.isLoadingState = false;
     },
     getMusicError: (state, action) => {
       state.isLoading = false;

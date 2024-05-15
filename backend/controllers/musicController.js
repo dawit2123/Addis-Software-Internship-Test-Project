@@ -3,14 +3,36 @@ import { Music } from "../models/musicModel.js";
 import multer from "multer";
 import sharp from "sharp";
 import fs from "fs";
+import mp3Duration from "mp3-duration";
+
+let audioFilePathGlobal;
 
 export const getMusics = asyncHandler(async (req, res) => {
-  const data = await Music.find();
+  const data = (await Music.find()).reverse();
   res.status(200).send(data);
 });
 export const createMusic = asyncHandler(async (req, res) => {
-  let required_fields = ["title", "artistName", "duration"];
+  let required_fields = ["title", "artistName"];
   let errors = [];
+  let durationOfMusic = "";
+  await mp3Duration(`${audioFilePathGlobal}`, function (err, duration) {
+    if (err) return console.log(err.message);
+    durationOfMusic = `${
+      duration > 60
+        ? parseInt(duration / 60) < 10
+          ? `0${parseInt(duration / 60)}`
+          : parseInt(duration / 60)
+        : "00"
+    }:${
+      duration > 60
+        ? parseInt(duration % 60) < 10
+          ? `0${parseInt(duration % 60)}`
+          : parseInt(duration % 60)
+        : parseInt(duration) < 10
+        ? `0${parseInt(duration)}`
+        : parseInt(duration)
+    }`;
+  });
   required_fields.forEach((field) => {
     if (!req.body[field]) errors.push(field + " is required!");
   });
@@ -20,7 +42,7 @@ export const createMusic = asyncHandler(async (req, res) => {
     const data = await Music.create({
       title: req.body.title,
       artistName: req.body.artistName,
-      duration: req.body.duration,
+      duration: durationOfMusic,
       coverImage: req.files["coverImage"].originalname,
       audioFile: req.files["audioFile"].originalname,
     });
@@ -40,6 +62,7 @@ export const processFiles = asyncHandler(async (req, res, next) => {
     );
   // Convert audio buffer to file and store it
   const audioFilePath = `${req.homedir}/public/audio/music/${req.files["audioFile"].originalname}`;
+  audioFilePathGlobal = audioFilePath;
   fs.writeFile(
     audioFilePath,
     req.files["audioFile"][0].buffer,

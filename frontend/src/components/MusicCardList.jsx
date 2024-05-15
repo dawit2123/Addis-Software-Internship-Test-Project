@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Box, Flex, Text } from "rebass";
 import { FaPlayCircle } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { editMusic, getMusicsFetch } from "../state/musicState";
+import { editMusic, getMusicsFetch, deleteMusic } from "../state/musicState";
+
 import { Link } from "react-router-dom";
 
 const artistNameStyles = css`
@@ -43,13 +44,18 @@ const Card = ({ artist, trackName, coverImage }) => {
     color: ${darkMode ? "white" : "black"};
     transition: box-shadow 0.5s ease-in-out;
     transition: width 0.5s ease-in-out;
+    box-shadow: ${darkMode
+      ? "0 14px 18px rgba(255, 255, 255, 0.4)"
+      : "0 14px 18px rgba(0, 0, 0, 0.4)"};
+
     &:hover {
-      box-shadow: 0 10px 14px rgba(0, 0, 0, 0.9);
+      box-shadow: ${darkMode
+        ? "0 14px 18px rgba(255, 255, 255, 0.9)"
+        : "0 14px 18px rgba(0, 0, 0, 0.9)"};
+      transform: translate(2px, 2px) scale(1.15);
     }
   `;
-  console.log(
-    `${import.meta.env.VITE_BACKEND_URL}/img/music/${coverImage}.jpeg`
-  );
+
   return (
     <Box css={cardStyles}>
       <img
@@ -74,6 +80,8 @@ const Card = ({ artist, trackName, coverImage }) => {
 
 const MusicCardList = ({ searchQuery }) => {
   const musics = useSelector((state) => state.musics.musics);
+  const isUpdate = useSelector((state) => state.musics.isUpdate);
+
   const [display, setDisplay] = useState([]);
 
   const dispatch = useDispatch();
@@ -81,6 +89,9 @@ const MusicCardList = ({ searchQuery }) => {
     dispatch(editMusic({ ...music, title: "atmetam" }));
   };
 
+  useEffect(() => {
+    dispatch(getMusicsFetch());
+  }, [isUpdate]);
   useEffect(() => {
     dispatch(getMusicsFetch());
   }, []);

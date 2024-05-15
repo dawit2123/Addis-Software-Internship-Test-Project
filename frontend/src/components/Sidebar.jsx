@@ -29,13 +29,14 @@ const Sidebar = () => {
 
   const sidebarStyle = css`
     width: 250px;
-    background-image: linear-gradient(to right, #12c2e9, #c471ed, #f64f59);
+    background-image: ${darkMode
+      ? "linear-gradient(to right, rgba(0,0,0,0.89), rgba(0,0,0,0.4))"
+      : "linear-gradient(to right, rgba(0, 147, 233, 0.4) 0%, rgba(0, 147, 233, 0.1) 100%)"};
     color: ${darkMode ? "white" : "black"};
     min-height: 90vh;
     padding-top: 20px;
   `;
   const handleBoxClick = () => {
-    console.log("clicked");
     navigate("/");
   };
   const handleAboutBoxClick = () => {

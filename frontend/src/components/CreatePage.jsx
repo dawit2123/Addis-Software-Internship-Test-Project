@@ -6,7 +6,6 @@ import { Input, Label } from "@rebass/forms";
 import { useDispatch, useSelector } from "react-redux";
 import { addMusic } from "../state/musicState";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 const inputStyle = css`
   width: 100%;
@@ -20,7 +19,6 @@ const CreatePage = () => {
   const [formData, setFormData] = useState({
     title: "",
     artistName: "",
-    duration: "",
     coverImage: null, // Initialize coverImage as null
     audioFile: null,
   });
@@ -33,12 +31,30 @@ const CreatePage = () => {
     });
   };
 
+  const validateFile = (file, fileType) => {
+    const allowedFileTypes =
+      fileType === "image" ? ["image/jpeg", "image/png"] : ["audio/mpeg"];
+    return allowedFileTypes.includes(file.type);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Validate cover image
+    if (!validateFile(formData.coverImage, "image")) {
+      alert("Upload only JPEG or PNG images for cover image");
+      return;
+    }
+
+    // Validate audio file
+    if (!validateFile(formData.audioFile, "audio")) {
+      alert("Upload only MP3 files for audio");
+      return;
+    }
+
     const formDataToSend = new FormData();
     formDataToSend.append("title", formData.title);
     formDataToSend.append("artistName", formData.artistName);
-    formDataToSend.append("duration", formData.duration);
     formDataToSend.append("coverImage", formData.coverImage);
     formDataToSend.append("audioFile", formData.audioFile);
     dispatch(addMusic(formDataToSend));
@@ -53,7 +69,10 @@ const CreatePage = () => {
     background: ${darkMode ? "#404040" : "white"};
     color: ${darkMode ? "white" : "black"};
   `;
-
+  const buttonStyle = css`
+    cursor: pointer;
+    background-image: linear-gradient(to right, #12c2e9, #c471ed, #f64f59);
+  `;
   return (
     <form
       css={formStyle}
@@ -68,6 +87,7 @@ const CreatePage = () => {
           id="title"
           value={formData.title}
           onChange={handleInputChange}
+          required
         />
       </Box>
       <Box css={inputStyle}>
@@ -78,30 +98,24 @@ const CreatePage = () => {
           id="artist"
           value={formData.artistName}
           onChange={handleInputChange}
+          required
         />
       </Box>
-      <Box css={inputStyle}>
-        <Label htmlFor="duration">Duration:</Label>
-        <Input
-          type="text"
-          name="duration"
-          id="duration"
-          value={formData.duration}
-          onChange={handleInputChange}
-        />
-      </Box>
+
       <Box css={inputStyle}>
         <Label htmlFor="coverImage">Cover Image:</Label>
         <Input
           type="file"
           name="coverImage"
           id="coverImage"
+          accept="image/jpeg, image/png"
           onChange={(e) => {
             setFormData({
               ...formData,
               coverImage: e.target.files[0],
             });
           }}
+          required
         />
       </Box>
       <Box css={inputStyle}>
@@ -110,16 +124,22 @@ const CreatePage = () => {
           type="file"
           name="audioFile"
           id="audioFile"
+          accept=".mp3"
           onChange={(e) => {
-            console.log(e.target.files);
             setFormData({
               ...formData,
               audioFile: e.target.files[0],
             });
           }}
+          required
         />
       </Box>
-      <Button type="submit" color={"white"} backgroundColor={"green"}>
+      <Button
+        type="submit"
+        color={"white"}
+        backgroundColor={"green"}
+        css={buttonStyle}
+      >
         Save
       </Button>
     </form>

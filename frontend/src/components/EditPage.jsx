@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { editMusic, getMusicsFetch } from "../state/musicState";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 const EditPage = () => {
   const navigate = useNavigate();
@@ -35,16 +34,19 @@ const EditPage = () => {
     width: 100%;
     margin-bottom: 20px;
   `;
-
+  const buttonStyle = css`
+    cursor: pointer;
+    background-image: linear-gradient(to right, #12c2e9, #c471ed, #f64f59);
+  `;
   const [formData, setFormData] = useState({
     id: _id,
     title: music ? music.title : "",
-    artist: music ? music.artistName : "",
-    duration: music ? music.duration : "",
+    artistName: music ? music.artistName : "",
   });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
     setFormData({
       ...formData,
       [name]: value,
@@ -54,7 +56,6 @@ const EditPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(editMusic(formData));
-
     navigate("/");
   };
 
@@ -74,23 +75,19 @@ const EditPage = () => {
         <Label htmlFor="artist">Artist:</Label>
         <Input
           type="text"
-          name="artist"
-          id="artist"
-          value={formData.artist}
+          name="artistName"
+          id="artistName"
+          value={formData.artistName}
           onChange={handleInputChange}
         />
       </Box>
-      <Box css={inputStyle}>
-        <Label htmlFor="duration">Duration:</Label>
-        <Input
-          type="text"
-          name="duration"
-          id="duration"
-          value={formData.duration}
-          onChange={handleInputChange}
-        />
-      </Box>
-      <Button type="submit" color={"white"} backgroundColor={"green"}>
+
+      <Button
+        type="submit"
+        color={"white"}
+        backgroundColor={"green"}
+        css={buttonStyle}
+      >
         Save
       </Button>
     </Box>

@@ -11,6 +11,7 @@ This Project is a React Test Project for Addis Software. It is a simple React Ap
 - Delete Music
 - Get Music
 - Search music by music title and music author
+- Play music with also play the next and previous music functionality
 - Cover Image computation and optimization in the backend like cropping the image, changing the type, reducing the size and others
 
 # Demo Record of the Addis Music project done for the Addis Internship project. Click on the image to view the live record.
@@ -24,8 +25,6 @@ You can access the backend api of the project [Backend Api](https://addis-music-
 You can access the Project using this link [Project Link](https://addis-music-web-app.onrender.com/).
 
 Full Source code is available at [Github](https://github.com/dawit2123/Addis-Software-Internship-Test-Project)
-
-### ✨ [Demo](https://addis-music-web-app.onrender.com/)
 
 ## Technologies
 

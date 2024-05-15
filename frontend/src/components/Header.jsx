@@ -5,6 +5,7 @@ import { Input } from "@rebass/forms";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { FaPlusCircle } from "react-icons/fa";
+
 import { FaMoon, FaSun } from "react-icons/fa";
 import { toggleDarkMode } from "../state/generalState";
 
@@ -29,7 +30,9 @@ const Header = ({ handleSearch }) => {
   const { darkMode } = useSelector((state) => state.general);
   const dispatch = useDispatch();
   const headerStyle = css`
-    background-image: linear-gradient(to right, #12c2e9, #c471ed, #f64f59);
+    background-image: ${darkMode
+      ? "linear-gradient(to right, rgba(0,0,0,0.89), rgba(0,0,0,0.4))"
+      : "linear-gradient(to right, rgba(0, 147, 233, 0.4) 0%, rgba(0, 147, 233, 0.1) 100%)"};
     color: ${darkMode ? "white" : "#000"};
     padding: 15px;
     border-bottom: 1px white solid;
@@ -67,7 +70,7 @@ const Header = ({ handleSearch }) => {
 
       <Box css={avatarStyle}>
         <label
-          style={{ margin: "0 1.2rem" }}
+          style={{ margin: "0 1.2rem", cursor: "pointer" }}
           onClick={() => dispatch(toggleDarkMode(!darkMode))}
         >
           {darkMode ? <FaSun size={37} /> : <FaMoon size={37} />}
@@ -77,12 +80,13 @@ const Header = ({ handleSearch }) => {
           <Button
             css={css`
               padding: 0;
-              background-color: ${darkMode ? "#404040" : "white"};
+              background-color: ${darkMode ? "#989898" : "#DCF0FC"};
+              cursor: pointer;
             `}
           >
             <FaPlusCircle
               css={css`
-                color: ${darkMode ? "white" : "green"};
+                color: ${darkMode ? "white" : "black"};
                 border-radius: 50%;
               `}
               size={40}
