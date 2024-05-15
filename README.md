@@ -34,6 +34,7 @@ Full Source code is available at [Github](https://github.com/dawit2123/Addis-Sof
     - Redux
     - Redux-Saga
     - Emotion
+    - Styled components
 
 ### Backend
 
