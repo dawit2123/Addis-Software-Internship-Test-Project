@@ -20,9 +20,9 @@ This Project is a React Test Project for Addis Software. It is a simple React Ap
 
 ## Project Links
 
-You can access the backend api of the project [Backend Api](https://addis-music-back-end-test-project.onrender.com/api/v1/music)
+You can access the Project using this link [https://addis-music-web-app.onrender.com/](https://addis-music-web-app.onrender.com/).
 
-You can access the Project using this link [Project Link](https://addis-music-web-app.onrender.com/).
+You can access the backend api of the project [Backend Api](https://addis-music-back-end-test-project.onrender.com/api/v1/music)
 
 Full Source code is available at [Github](https://github.com/dawit2123/Addis-Software-Internship-Test-Project)
 
