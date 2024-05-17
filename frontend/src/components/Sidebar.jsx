@@ -17,7 +17,7 @@ const sidebarItemStyle = css`
   cursor: pointer;
 
   &:hover {
-    background-color: #444;
+    background-color: rgba(255, 255, 255, 0.8);
   }
 `;
 

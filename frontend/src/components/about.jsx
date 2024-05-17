@@ -20,10 +20,7 @@ const AboutPage = () => {
     width: 100%;
     margin-bottom: 20px;
   `;
-  const buttonStyle = css`
-    cursor: pointer;
-    background-image: linear-gradient(to right, #12c2e9, #c471ed, #f64f59);
-  `;
+
   const handleSubmit = () => {
     navigate("/");
   };
@@ -37,12 +34,7 @@ const AboutPage = () => {
         </h2>
       </Box>
 
-      <Button
-        type="submit"
-        color={"white"}
-        backgroundColor={"green"}
-        css={buttonStyle}
-      >
+      <Button type="submit" color={"white"} className="glow-on-hover">
         Go To Home
       </Button>
     </Box>

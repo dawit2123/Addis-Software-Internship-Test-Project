@@ -69,10 +69,7 @@ const CreatePage = () => {
     background: ${darkMode ? "#404040" : "white"};
     color: ${darkMode ? "white" : "black"};
   `;
-  const buttonStyle = css`
-    cursor: pointer;
-    background-image: linear-gradient(to right, #12c2e9, #c471ed, #f64f59);
-  `;
+
   return (
     <form
       css={formStyle}
@@ -134,12 +131,7 @@ const CreatePage = () => {
           required
         />
       </Box>
-      <Button
-        type="submit"
-        color={"white"}
-        backgroundColor={"green"}
-        css={buttonStyle}
-      >
+      <Button type="submit" color={"white"} className="glow-on-hover">
         Save
       </Button>
     </form>
