@@ -22,6 +22,51 @@ const CreatePage = () => {
     coverImage: null, // Initialize coverImage as null
     audioFile: null,
   });
+  const [errors, setErrors] = useState({
+    title: "",
+    artistName: "",
+    coverImage: "",
+    audioFile: "",
+  });
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.title) {
+      newErrors.title = "Title is required.";
+    } else if (formData.title.length < 3) {
+      newErrors.title = "Music title must be at least 3 characters long.";
+    } else if (formData.title.length > 50) {
+      newErrors.title = "Music title must be at most 50 charactes long";
+    }
+
+    if (!formData.artistName) {
+      newErrors.artistName = "Artist name is required.";
+    } else if (formData.artistName.length < 2) {
+      newErrors.artistName = "Artist name must be at least 2 characters long.";
+    } else if (formData.artistName.length > 15) {
+      newErrors.artistName = "Artist name must be at most 15 characters long";
+    }
+
+    if (!formData.coverImage) {
+      newErrors.coverImage = "Cover image is required.";
+    } else if (
+      !["image/jpeg", "image/png"].includes(formData.coverImage.type)
+    ) {
+      newErrors.coverImage = "Cover image must be a JPEG or PNG file.";
+    } else if (formData.coverImage.size > 9 * 1024 * 1024) {
+      newErrors.coverImage = "Cover image must be less than 9 MB.";
+    }
+    if (!formData.audioFile) {
+      newErrors.audioFile = "Audio file is required.";
+    } else if (formData.audioFile.type !== "audio/mpeg") {
+      newErrors.audioFile = "Audio file must be an MP3 file.";
+    } else if (formData.audioFile.size > 10 * 1024 * 1024) {
+      newErrors.audioFile = "Audio file must be less than 10 MB.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -39,19 +84,9 @@ const CreatePage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Validate cover image
-    if (!validateFile(formData.coverImage, "image")) {
-      alert("Upload only JPEG or PNG images for cover image");
+    if (!validateForm()) {
       return;
     }
-
-    // Validate audio file
-    if (!validateFile(formData.audioFile, "audio")) {
-      alert("Upload only MP3 files for audio");
-      return;
-    }
-
     const formDataToSend = new FormData();
     formDataToSend.append("title", formData.title);
     formDataToSend.append("artistName", formData.artistName);
@@ -71,11 +106,7 @@ const CreatePage = () => {
   `;
 
   return (
-    <form
-      css={formStyle}
-      onSubmit={handleSubmit}
-      encType="multipart/form-data" // Corrected attribute name
-    >
+    <form css={formStyle} onSubmit={handleSubmit} encType="multipart/form-data">
       <Box css={inputStyle}>
         <Label htmlFor="title">Title:</Label>
         <Input
@@ -84,8 +115,8 @@ const CreatePage = () => {
           id="title"
           value={formData.title}
           onChange={handleInputChange}
-          required
         />
+        {errors.title && <span style={{ color: "red" }}>{errors.title}</span>}
       </Box>
       <Box css={inputStyle}>
         <Label htmlFor="artist">Artist:</Label>
@@ -95,10 +126,11 @@ const CreatePage = () => {
           id="artist"
           value={formData.artistName}
           onChange={handleInputChange}
-          required
         />
+        {errors.artistName && (
+          <span style={{ color: "red" }}>{errors.artistName}</span>
+        )}
       </Box>
-
       <Box css={inputStyle}>
         <Label htmlFor="coverImage">Cover Image:</Label>
         <Input
@@ -112,8 +144,10 @@ const CreatePage = () => {
               coverImage: e.target.files[0],
             });
           }}
-          required
         />
+        {errors.coverImage && (
+          <span style={{ color: "red" }}>{errors.coverImage}</span>
+        )}
       </Box>
       <Box css={inputStyle}>
         <Label htmlFor="audioFile">Audio File:</Label>
@@ -128,8 +162,10 @@ const CreatePage = () => {
               audioFile: e.target.files[0],
             });
           }}
-          required
         />
+        {errors.audioFile && (
+          <span style={{ color: "red" }}>{errors.audioFile}</span>
+        )}
       </Box>
       <Button type="submit" color={"white"} className="glow-on-hover">
         Save

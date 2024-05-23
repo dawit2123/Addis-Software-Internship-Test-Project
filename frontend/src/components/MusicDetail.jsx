@@ -39,7 +39,6 @@ const MusicDetail = () => {
     }
 
     return () => {
-      // Cleanup audio when component unmounts
       setMusicUrl(""); // Reset music URL
     };
   }, [dispatch, music]);
@@ -219,6 +218,7 @@ const MusicDetail = () => {
                         height: "25px",
                       }}
                       onClick={handleSeek}
+                      onChange={() => {}}
                     />
                     <div
                       style={{
