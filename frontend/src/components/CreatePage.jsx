@@ -76,12 +76,6 @@ const CreatePage = () => {
     });
   };
 
-  const validateFile = (file, fileType) => {
-    const allowedFileTypes =
-      fileType === "image" ? ["image/jpeg", "image/png"] : ["audio/mpeg"];
-    return allowedFileTypes.includes(file.type);
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validateForm()) {
