@@ -8,12 +8,17 @@ import {
   editMusicSaga,
   musicSaga,
 } from "../state/musicSaga";
-import { all } from "redux-saga/effects";
+import { all, fork } from "redux-saga/effects";
 
 const saga = createSagaMiddleware();
 
 function* rootSaga() {
-  yield all([musicSaga(), addMusicSaga(), editMusicSaga(), deleteMusicSaga()]);
+  yield all([
+    fork(musicSaga),
+    fork(addMusicSaga),
+    fork(editMusicSaga),
+    fork(deleteMusicSaga),
+  ]);
 }
 
 const store = configureStore({
