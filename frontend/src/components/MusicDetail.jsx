@@ -21,7 +21,7 @@ const MusicDetail = () => {
   const [seeking, setSeeking] = useState(false); // State to track seeking state
   const [musicUrl, setMusicUrl] = useState(""); // State to store music URL
 
-  const { musics, isLoadingState } = useSelector((state) => state.musics);
+  const { musics, isLoading } = useSelector((state) => state.musics);
   const { darkMode } = useSelector((state) => state.general);
 
   const music = musics.find((music) => music._id === _id);
@@ -112,7 +112,7 @@ const MusicDetail = () => {
 
   return (
     <>
-      {isLoadingState ? (
+      {isLoading ? (
         <div
           style={{
             display: "flex",

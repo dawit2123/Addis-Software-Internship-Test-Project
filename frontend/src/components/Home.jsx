@@ -7,7 +7,7 @@ import loaderGif from "./../assets/loader.gif";
 
 function Home({ searchQuery }) {
   const { darkMode } = useSelector((state) => state.general);
-  const { isLoadingState } = useSelector((state) => state.musics);
+  const { isLoading } = useSelector((state) => state.musics);
   const customStyle = css`
     padding: 20px;
     width: 100%;
@@ -16,7 +16,7 @@ function Home({ searchQuery }) {
   `;
   return (
     <Box css={customStyle}>
-      {isLoadingState ? (
+      {isLoading ? (
         <div>
           <div
             style={{
