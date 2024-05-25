@@ -9,7 +9,7 @@ import {
   FaArrowAltCircleLeft,
 } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteMusic, editMusic, getMusicsFetch } from "../state/musicState";
+import { deleteMusic, getMusicsFetch } from "../state/musicState";
 import ReactPlayer from "react-player";
 
 const MusicDetail = () => {

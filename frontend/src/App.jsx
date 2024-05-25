@@ -9,7 +9,6 @@ import {
   RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
-  useSearchParams,
 } from "react-router-dom";
 import MusicDetail from "./components/MusicDetail";
 import EditPage from "./components/EditPage";

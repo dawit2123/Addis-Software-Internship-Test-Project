@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 const EditPage = () => {
   const navigate = useNavigate();
   const { _id } = useParams();
-  const { musics, isLoading } = useSelector((state) => state.musics);
+  const { musics } = useSelector((state) => state.musics);
 
   const music = musics.filter((music) => music._id == _id)[0];
 

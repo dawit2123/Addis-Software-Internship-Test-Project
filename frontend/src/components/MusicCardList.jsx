@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Box, Flex, Text } from "rebass";
 import { FaPlayCircle } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { editMusic, getMusicsFetch, deleteMusic } from "../state/musicState";
+import { editMusic, getMusicsFetch } from "../state/musicState";
 
 import { Link } from "react-router-dom";
 
@@ -80,7 +80,7 @@ const Card = ({ artist, trackName, coverImage }) => {
 
 const MusicCardList = ({ searchQuery }) => {
   const musics = useSelector((state) => state.musics.musics);
-  const isUpdate = useSelector((state) => state.musics.isUpdate);
+  const isLoading = useSelector((state) => state.musics.isLoading);
 
   const [display, setDisplay] = useState([]);
 
@@ -91,10 +91,8 @@ const MusicCardList = ({ searchQuery }) => {
 
   useEffect(() => {
     dispatch(getMusicsFetch());
-  }, [isUpdate]);
-  useEffect(() => {
-    dispatch(getMusicsFetch());
-  }, []);
+  }, [isLoading]);
+
   useEffect(() => {
     if (searchQuery === "") {
       setDisplay(musics);

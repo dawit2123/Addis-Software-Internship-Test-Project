@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Text } from "rebass";
+import { Box } from "rebass";
 import { css } from "@emotion/react";
 import MusicCardList from "./MusicCardList";
 import { useSelector } from "react-redux";

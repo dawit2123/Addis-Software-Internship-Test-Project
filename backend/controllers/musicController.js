@@ -63,7 +63,7 @@ export const processFiles = asyncHandler(async (req, res, next) => {
   // Convert audio buffer to file and store it
   const audioFilePath = `${req.homedir}/public/audio/music/${req.files["audioFile"].originalname}`;
   audioFilePathGlobal = audioFilePath;
-  fs.writeFile(
+  await fs.writeFile(
     audioFilePath,
     req.files["audioFile"][0].buffer,
     "binary",

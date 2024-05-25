@@ -4,7 +4,6 @@ const initialState = {
   musics: [],
   isLoading: false,
   isLoadingState: true,
-  isUpdate: false,
   isError: "",
 };
 
@@ -18,7 +17,6 @@ const musicState = createSlice({
     getMusicsSuccess: (state, action) => {
       state.musics = action.payload;
       state.isLoading = false;
-      state.isUpdate = true;
       state.isLoadingState = false;
     },
     addMusic: (state, action) => {
@@ -28,7 +26,6 @@ const musicState = createSlice({
     addMusicSuccess: (state, action) => {
       state.musics.push(action.payload);
       state.isLoading = false;
-      state.isUpdate = true;
       state.isLoadingState = false;
     },
     deleteMusic: (state, action) => {
@@ -37,7 +34,6 @@ const musicState = createSlice({
     },
     deleteMusicSuccess: (state, action) => {
       state.isLoading = false;
-      state.isUpdate = true;
       state.isLoadingState = false;
     },
     editMusic: (state, action) => {
@@ -56,7 +52,6 @@ const musicState = createSlice({
       });
 
       state.isLoading = false;
-      state.isUpdate = true;
       state.isLoadingState = false;
     },
     getMusicError: (state, action) => {

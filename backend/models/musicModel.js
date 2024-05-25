@@ -21,7 +21,7 @@ const musicSchema = new mongoose.Schema(
     },
     audioFile: {
       type: String,
-      required: [treu, "A music must have an audio file"],
+      required: [true, "A music must have an audio file"],
     },
   },
   { timestamps: true }

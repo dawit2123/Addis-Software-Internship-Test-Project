@@ -1,6 +1,5 @@
 import { css } from "@emotion/react";
 import React from "react";
-import { FaMoon, FaSun } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Box, Flex, Text } from "rebass";
 import { useNavigate } from "react-router-dom";

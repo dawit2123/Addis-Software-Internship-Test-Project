@@ -1,9 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { Box, Button, Text } from "rebass";
-import { Label } from "@rebass/forms";
 
 const AboutPage = () => {
   const navigate = useNavigate();
