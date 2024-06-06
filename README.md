@@ -47,10 +47,6 @@ Full Source code is available at [Github](https://github.com/dawit2123/Addis-Sof
 
     - Postman
 
-### Notes to remember
-
-- Because of the limited free server providing functionalities, some issues like replaying the music with abnormal way😡 and other will occur, but it won't occur when you work on best hosting providers or localhost😊
-
 ## Author
 
 👤 **Dawit Zewdu**
