@@ -8,8 +8,8 @@ import mp3Duration from "mp3-duration";
 let audioFilePathGlobal;
 
 export const getMusics = asyncHandler(async (req, res) => {
-  const data = (await Music.find()).reverse();
-  res.status(200).send(data);
+  const data = await Music.getAllMusics();
+  res.status(200).json(data);
 });
 export const createMusic = asyncHandler(async (req, res) => {
   let required_fields = ["title", "artistName"];
@@ -39,19 +39,18 @@ export const createMusic = asyncHandler(async (req, res) => {
   if (errors.length !== 0) {
     res.status(400).json({ message: errors });
   } else {
-    const data = await Music.create({
+    const data = await new Music({
       title: req.body.title,
       artistName: req.body.artistName,
-      duration: durationOfMusic,
+      duration: req.body.duration,
       coverImage: req.files["coverImage"].originalname,
       audioFile: req.files["audioFile"].originalname,
-    });
+    }).createMusicMethod();
     res.status(200).json(data);
   }
 });
 
 export const processFiles = asyncHandler(async (req, res, next) => {
-  console.log('The req.filesare', req.files);
   req.files["coverImage"].originalname = `${Date.now()}-music`;
   req.files["audioFile"].originalname = `${Date.now()}-audio.mp3`;
   await sharp(req.files["coverImage"][0].buffer)
@@ -109,18 +108,12 @@ export const uploadFiles = asyncHandler(async (req, res, next) => {
 });
 
 export const updateMusic = asyncHandler(async (req, res) => {
-  const data = await Music.findById(req.params.id);
+  const data = await Music.findMusicById(req.params.id);
 
   if (!data) {
     res.status(404).json({ message: "Music not found!" });
   } else {
-    const updatedMusic = await Music.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      {
-        new: true,
-      }
-    );
+    const updatedMusic = await Music.findMusicAndUpdate(req);
     res.status(200).json(updatedMusic);
   }
 });

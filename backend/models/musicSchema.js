@@ -26,4 +26,29 @@ const musicSchema = new mongoose.Schema(
     },
     { timestamps: true }
   );
+
+  //adding a create music method
+  musicSchema.methods.createMusicMethod= async function(req){
+    return await this.save();
+   }
+
+  //adding methods
+  musicSchema.statics.getAllMusics= async function(){
+    return await this.find();
+  }
+
+  musicSchema.statics.findMusicById= async function(id){
+    return await this.findById(id);
+  }
+  
+  musicSchema.statics.findMusicAndUpdate= async function(req){
+    return await this.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+      }
+    )
+  }
+
   export default musicSchema;
