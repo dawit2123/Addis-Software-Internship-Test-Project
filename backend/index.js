@@ -7,6 +7,7 @@ import musicRoutes from "./routes/musicRoutes.js";
 import { connectDB } from "./config/database.js";
 import mongoSanitize from "express-mongo-sanitize";
 import xss from "xss-clean";
+import { error } from "console";
 
 dotenv.config({ path: "config.env" });
 
@@ -37,13 +38,35 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/v1/music", musicRoutes);
-app.listen(process.env.PORT || 5000, () => {
+// error handling middleware
+app.use((err, req, res, next) => {
+  if(process.env.NODE_ENV === 'development') {
+   res.status(400).json({
+     status:"fail",
+     error:err.message,
+     stack:err.stack
+   })
+  }
+  else{
+   res.status(500).json({
+     status:"error",
+     message:"Something went wrong"
+   })
+  }
+})
+
+app.all('*', (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+});
+
+
+const server = app.listen(process.env.PORT || 5000, () => {
   console.log(`Server is running at port ${process.env.PORT || 5000}`);
 });
 
 process.on('unhandledRejection', err => {
   console.log('UNHANDLED REJECTION! 💥 Shutting down...');
-  console.log(err.name, err.message);
+  console.log(err.name, err.message,err);
   server.close(() => {
     process.exit(1);
   });

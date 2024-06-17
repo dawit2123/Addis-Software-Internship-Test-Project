@@ -1,4 +1,4 @@
-import asyncHandler from "express-async-handler";
+import catchAsync from "../utils/catchAsync.js";
 import { Music } from "../models/musicModel.js";
 import multer from "multer";
 import sharp from "sharp";
@@ -7,11 +7,11 @@ import mp3Duration from "mp3-duration";
 
 let audioFilePathGlobal;
 
-export const getMusics = asyncHandler(async (req, res) => {
+export const getMusics = catchAsync(async (req, res) => {
   const data = await Music.getAllMusics();
   res.status(200).json(data);
 });
-export const createMusic = asyncHandler(async (req, res) => {
+export const createMusic = catchAsync(async (req, res) => {
   let required_fields = ["title", "artistName"];
   let errors = [];
   let durationOfMusic = "";
@@ -50,7 +50,7 @@ export const createMusic = asyncHandler(async (req, res) => {
   }
 });
 
-export const processFiles = asyncHandler(async (req, res, next) => {
+export const processFiles = catchAsync(async (req, res, next) => {
   req.files["coverImage"].originalname = `${Date.now()}-music`;
   req.files["audioFile"].originalname = `${Date.now()}-audio.mp3`;
   await sharp(req.files["coverImage"][0].buffer)
@@ -76,7 +76,7 @@ export const processFiles = asyncHandler(async (req, res, next) => {
   );
   next();
 });
-export const uploadFiles = asyncHandler(async (req, res, next) => {
+export const uploadFiles = catchAsync(async (req, res, next) => {
   const multerStorage = multer.memoryStorage();
   const multerFilter = (req, file, cb) => {
     if (
@@ -107,7 +107,7 @@ export const uploadFiles = asyncHandler(async (req, res, next) => {
   });
 });
 
-export const updateMusic = asyncHandler(async (req, res) => {
+export const updateMusic = catchAsync(async (req, res) => {
   const data = await Music.findMusicById(req.params.id);
 
   if (!data) {
@@ -118,7 +118,7 @@ export const updateMusic = asyncHandler(async (req, res) => {
   }
 });
 
-export const deleteMusic = asyncHandler(async (req, res) => {
+export const deleteMusic = catchAsync(async (req, res) => {
   const data = await Music.findById(req.params.id);
   const audioFilePath = `${req.homedir}/public/audio/music/${data.audioFile}`;
   const imageFilePath = `${req.homedir}/public/img/music/${data.coverImage}.jpeg`;
