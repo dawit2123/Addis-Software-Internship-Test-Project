@@ -50,5 +50,7 @@ const musicSchema = new mongoose.Schema(
       }
     )
   }
-
+ musicSchema.statics.deleteMusicStatic= async function(id){
+  return await this.findByIdAndDelete(id);
+ }
   export default musicSchema;

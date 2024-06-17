@@ -125,20 +125,20 @@ export const deleteMusic = asyncHandler(async (req, res) => {
 
   fs.unlink(audioFilePath, (err) => {
     if (err) {
-      console.error("Error deleting the file", err);
+      console.error("Error deleting the audio", err);
       return;
     }
   });
   fs.unlink(imageFilePath, (err) => {
     if (err) {
-      console.error("Error deleting the file", err);
+      console.error("Error deleting the image", err);
       return;
     }
   });
   if (!data) {
     res.status(404).json({ message: "Music not found!" });
   } else {
-    await Music.deleteOne({ _id: req.params.id });
+    await Music.deleteMusicStatic(req.params.id);
     res.status(200).json({ id: req.params._id, message: "Music deleted!" });
   }
 });
