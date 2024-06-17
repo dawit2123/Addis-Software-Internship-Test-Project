@@ -41,7 +41,7 @@ app.use("/api/v1/music", musicRoutes);
 // error handling middleware
 app.use((err, req, res, next) => {
   if(process.env.NODE_ENV === 'development') {
-   res.status(400).json({
+   res.status(err.status||400).json({
      status:"fail",
      error:err.message,
      stack:err.stack
@@ -56,7 +56,7 @@ app.use((err, req, res, next) => {
 })
 
 app.all('*', (req, res, next) => {
-  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+  next(`Can't find ${req.originalUrl} on this server!`);
 });
 
 

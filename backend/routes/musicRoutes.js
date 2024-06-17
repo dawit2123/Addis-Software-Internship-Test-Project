@@ -1,6 +1,7 @@
 import express from "express";
 import { uploadFiles } from "../controllers/musicController.js";
 import { processFiles } from "../controllers/musicController.js";
+import validate from "./../utils/validate.js";
 const router = express.Router();
 
 import {
@@ -10,7 +11,7 @@ import {
   updateMusic,
 } from "../controllers/musicController.js";
 
-router.route("/").get(getMusics).post(uploadFiles, processFiles, createMusic);
+router.route("/").get(getMusics).post(uploadFiles, processFiles, validate, createMusic);
 
 router.route("/:id").patch(updateMusic).delete(deleteMusic);
 

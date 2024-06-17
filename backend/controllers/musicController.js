@@ -4,14 +4,15 @@ import multer from "multer";
 import sharp from "sharp";
 import fs from "fs";
 import mp3Duration from "mp3-duration";
-
+import validate from "../utils/validate.js";
+import valid  from "joi";
 let audioFilePathGlobal;
 
 export const getMusics = catchAsync(async (req, res) => {
   const data = await Music.getAllMusics();
   res.status(200).json(data);
 });
-export const createMusic = catchAsync(async (req, res) => {
+export const createMusic = catchAsync(async (req, res, next) => {
   let required_fields = ["title", "artistName"];
   let errors = [];
   let durationOfMusic = "";
@@ -85,7 +86,7 @@ export const uploadFiles = catchAsync(async (req, res, next) => {
     ) {
       cb(null, true);
     } else {
-      cb(new AppError("Please upload only image or audio files.", 400), false);
+      cb(next("Please upload only image or audio files."), false);
     }
   };
 
