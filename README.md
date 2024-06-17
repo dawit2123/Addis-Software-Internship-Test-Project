@@ -14,7 +14,7 @@ This Project is a React Test Project for Addis Software. It is a simple React Ap
 - Play music with also play the next and previous music functionality
 - Cover Image computation and optimization in the backend like cropping the image, changing the type, reducing the size and others
 
-# Demo Record of the Addis Music project done for the Addis Internship project. Click on the image to view the live record.
+# Demo Record of the Addis Music project done for the Addis Internship project.
 
 [![Addis Music Project Demo](https://github.com/dawit2123/Addis-Software-Internship-Test-Project/blob/main/thumbnail.png)](https://www.youtube.com/watch?v=Ax3iQdo81f0)
 
