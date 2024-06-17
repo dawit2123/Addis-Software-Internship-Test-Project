@@ -51,6 +51,7 @@ export const createMusic = asyncHandler(async (req, res) => {
 });
 
 export const processFiles = asyncHandler(async (req, res, next) => {
+  console.log('The req.filesare', req.files);
   req.files["coverImage"].originalname = `${Date.now()}-music`;
   req.files["audioFile"].originalname = `${Date.now()}-audio.mp3`;
   await sharp(req.files["coverImage"][0].buffer)
