@@ -8,7 +8,11 @@ let audioFilePathGlobal;
 
 export const getMusics = catchAsync(async (req, res) => {
   const data = await Music.getAllMusics();
-  res.status(200).json(data);
+  res.status(200).json(
+    {
+    status:"success",
+    data
+  });
 });
 export const createMusic = catchAsync(async (req, res, next) => {
   let required_fields = ["title", "artistName"];
@@ -36,7 +40,10 @@ export const createMusic = catchAsync(async (req, res, next) => {
     if (!req.body[field]) errors.push(field + " is required!");
   });
   if (errors.length !== 0) {
-    res.status(400).json({ message: errors });
+    res.status(400).json({ 
+      status: "fail",
+      data: errors 
+    });
   } else {
     const data = await new Music({
       title: req.body.title,
@@ -45,7 +52,10 @@ export const createMusic = catchAsync(async (req, res, next) => {
       coverImage: req.files["coverImage"].originalname,
       audioFile: req.files["audioFile"].originalname,
     }).createMusicMethod();
-    res.status(200).json(data);
+    res.status(200).json({
+      status:'success',
+      data
+    });
   }
 });
 
@@ -110,10 +120,16 @@ export const updateMusic = catchAsync(async (req, res) => {
   const data = await Music.findMusicById(req.params.id);
 
   if (!data) {
-    res.status(404).json({ message: "Music not found!" });
+    res.status(404).json({ 
+      status: "fail",
+      message: "Music not found!" 
+    });
   } else {
     const updatedMusic = await Music.findMusicAndUpdate(req);
-    res.status(200).json(updatedMusic);
+    res.status(200).json({
+      status:'success',
+      updatedMusic
+    });
   }
 });
 
@@ -135,9 +151,12 @@ export const deleteMusic = catchAsync(async (req, res) => {
     }
   });
   if (!data) {
-    res.status(404).json({ message: "Music not found!" });
+    res.status(404).json({
+      status: "fail",
+       message: "Music not found!" 
+    });
   } else {
     await Music.deleteMusicStatic(req.params.id);
-    res.status(200).json({ id: req.params._id, message: "Music deleted!" });
+    res.status(200).json({status:"success", id: req.params._id, message: "Music deleted!" });
   }
 });
