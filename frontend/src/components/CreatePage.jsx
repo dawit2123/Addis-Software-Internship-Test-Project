@@ -53,8 +53,8 @@ const CreatePage = () => {
       !["image/jpeg", "image/png"].includes(formData.coverImage.type)
     ) {
       newErrors.coverImage = "Cover image must be a JPEG or PNG file.";
-    } else if (formData.coverImage.size > 9 * 1024 * 1024) {
-      newErrors.coverImage = "Cover image must be less than 9 MB.";
+    } else if (formData.coverImage.size > 8 * 1024 * 1024) {
+      newErrors.coverImage = "Cover image must be less than 8 MB.";
     }
     if (!formData.audioFile) {
       newErrors.audioFile = "Audio file is required.";
