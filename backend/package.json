@@ -27,5 +27,8 @@
     "sharp": "^0.33.3",
     "url": "^0.11.3",
     "xss-clean": "^0.1.4"
+  },
+  "devDependencies": {
+    "morgan": "^1.10.0"
   }
 }
