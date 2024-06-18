@@ -29,7 +29,6 @@ const userValidation = Joi.object({
     }, 'File Size Validation'),
     });
 const validate= (req, res, next)=>{
-    console.log('The req.file are', req.files['coverImage'][0].buffer, req.files['audioFile'][0].buffer, req.files);
     const object= {
         title: req.body.title,
         artistName: req.body.artistName,

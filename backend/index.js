@@ -7,6 +7,7 @@ import musicRoutes from "./routes/musicRoutes.js";
 import { connectDB } from "./config/database.js";
 import mongoSanitize from "express-mongo-sanitize";
 import helmet from "helmet";
+import morgan from "morgan";
 import ratelimit from "express-rate-limit";
 import compression from "compression";
 
@@ -42,14 +43,23 @@ app.use(express.urlencoded({ extended: true }));
 //compress the response body to reduce the size of the response
 app.use(compression());
 
+
+// Development logging
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
+
 //limit the number of requests from an IP
 const limiter = ratelimit({
   max: 200,
   windowMs: 1*60 * 60 * 1000,
   message: "Too many requests from this IP, please try again!"
 });
+
 app.use("/api", limiter);
 app.use("/api/v1/music", musicRoutes);
+
+
 // error handling middleware
 app.use((err, req, res, next) => {
   if(process.env.NODE_ENV === 'development') {
