@@ -10,7 +10,6 @@ const validate= (req, res, next)=>{
         title: req.body.title,
         artistName: req.body.artistName,
         duration: req.body.duration,
-    
     }
     const { error } = userValidation.validate(object);
     if (error) {

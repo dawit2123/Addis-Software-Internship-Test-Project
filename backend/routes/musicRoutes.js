@@ -1,7 +1,7 @@
 import express from "express";
 import { uploadFiles } from "../controllers/musicController.js";
 import { processFiles } from "../controllers/musicController.js";
-import validate from "./../utils/validate.js";
+import validate from "../validate/validateMusic.js";
 const router = express.Router();
 
 import {

@@ -1,10 +1,10 @@
 import catchAsync from "../utils/catchAsync.js";
-import { Music } from "../models/musicModel.js";
+import { Music } from "../models/music/musicModel.js";
 import multer from "multer";
 import sharp from "sharp";
 import fs from "fs";
 import mp3Duration from "mp3-duration";
-import validate from "../utils/validate.js";
+import validate from "../validate/validateMusic.js";
 import valid  from "joi";
 let audioFilePathGlobal;
 

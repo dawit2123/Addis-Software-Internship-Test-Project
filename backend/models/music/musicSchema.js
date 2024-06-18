@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import {getAllMusics, findMusicById,deleteMusicStatic, findMusicAndUpdate} from './statics.js'; 
-import { createMusicMethod } from "./methods.js";
+import * as statics from './statics.js'; 
+import * as methods from "./methods.js";
 const musicSchema = new mongoose.Schema(
     {
       title: {
@@ -29,13 +29,8 @@ const musicSchema = new mongoose.Schema(
   );
 
   //adding a create music method
-  musicSchema.methods.createMusicMethod=createMusicMethod;
+  musicSchema.method(methods);
 
   //adding methods
-  musicSchema.statics.getAllMusics=getAllMusics;
-
-  musicSchema.statics.findMusicById=findMusicById;
-  
-  musicSchema.statics.findMusicAndUpdate=findMusicAndUpdate;
- musicSchema.statics.deleteMusicStatic=deleteMusicStatic;
+  musicSchema.static(statics)
   export default musicSchema;
