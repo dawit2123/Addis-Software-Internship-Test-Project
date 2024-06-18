@@ -6,8 +6,9 @@ import dotenv from "dotenv";
 import musicRoutes from "./routes/musicRoutes.js";
 import { connectDB } from "./config/database.js";
 import mongoSanitize from "express-mongo-sanitize";
-import xss from "xss-clean";
-import { error } from "console";
+import helmet from "helmet";
+import ratelimit from "express-rate-limit";
+import compression from "compression";
 
 dotenv.config({ path: "config.env" });
 
@@ -21,8 +22,9 @@ const app = express();
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
 
-// Data sanitization against XSS
-app.use(xss());
+
+// Set security HTTP headers
+app.use(helmet());
 
 //serving static files
 app.use(express.static(__dirname + "/public"));
@@ -37,6 +39,16 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+//compress the response body to reduce the size of the response
+app.use(compression());
+
+//limit the number of requests from an IP
+const limiter = ratelimit({
+  max: 200,
+  windowMs: 1*60 * 60 * 1000,
+  message: "Too many requests from this IP, please try again!"
+});
+app.use("/api", limiter);
 app.use("/api/v1/music", musicRoutes);
 // error handling middleware
 app.use((err, req, res, next) => {

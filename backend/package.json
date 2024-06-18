@@ -10,11 +10,12 @@
   "author": "Dawit Zewdu",
   "license": "MIT",
   "dependencies": {
+    "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.1",
-    "express-async-handler": "^1.2.0",
     "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^7.3.1",
     "file-type": "^19.0.0",
     "helmet": "^7.1.0",
     "joe.js": "^0.0.3",
