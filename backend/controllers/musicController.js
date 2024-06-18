@@ -4,8 +4,6 @@ import multer from "multer";
 import sharp from "sharp";
 import fs from "fs";
 import mp3Duration from "mp3-duration";
-import validate from "../validate/validateMusic.js";
-import valid  from "joi";
 let audioFilePathGlobal;
 
 export const getMusics = catchAsync(async (req, res) => {
