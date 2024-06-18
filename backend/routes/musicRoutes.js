@@ -11,7 +11,7 @@ import {
   updateMusic,
 } from "../controllers/musicController.js";
 
-router.route("/").get(getMusics).post(uploadFiles, processFiles, validate, createMusic);
+router.route("/").get(getMusics).post(uploadFiles, validate, processFiles, createMusic);
 
 router.route("/:id").patch(updateMusic).delete(deleteMusic);
 
