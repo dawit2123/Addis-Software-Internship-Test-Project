@@ -1,6 +1,15 @@
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+import { promisify } from "util";
 import catchAsync from "../utils/catchAsync.js";
 import User from "../models/users/userModel.js";
+dotenv.config({ path: "config.env" });
+
+console.log(
+  process.env.JWT_SECRET,
+  process.env.JWT_EXPIRES_IN,
+  process.env.JWT_COOKIE_EXPIRES_IN
+);
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -51,11 +60,35 @@ export const login = catchAsync(async (req, res, next) => {
   if (!email || !password) {
     return next("Please provide email and password!");
   }
-  const user = await User.findOne({ email }).select("+password");
+  const user = await User.findUser(email);
   if (!user || !(await user.verifyPassword(password, user.password))) {
     return next("Incorrect email or password");
   }
 
   // 3) If everything is ok, send token to client
   createSendToken(user, 200, req, res);
+});
+
+export const isLoggedIn = catchAsync(async (req, res, next) => {
+  if (req.cookies.jwt) {
+    // 1) verify token
+    const decoded = await promisify(jwt.verify)(
+      req.cookies.jwt,
+      process.env.JWT_SECRET
+    );
+    // 2) Check if user still exists
+    const currentUser = await User.findById(decoded.id);
+    if (!currentUser) {
+      return next("Failed to find user with this token. Please login again!");
+    }
+
+    // 3) Check if user changed password after the token was issued
+    if (currentUser.changedPasswordAfter(decoded.iat)) {
+      return next("User recently changed password! Please login again.");
+    }
+    // THERE IS A LOGGED IN USER
+    res.locals.user = currentUser;
+    return next();
+  }
+  next(new Error("You are not logged in! Please log in to get access."));
 });

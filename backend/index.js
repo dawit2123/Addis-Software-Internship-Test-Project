@@ -7,10 +7,12 @@ import ratelimit from "express-rate-limit";
 import compression from "compression";
 import dotenv from "dotenv";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import { fileURLToPath } from "url";
 import musicRouter from "./routes/musicRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 import { connectDB } from "./config/database.js";
+import { isLoggedIn } from "./controllers/authController.js";
 
 dotenv.config({ path: "config.env" });
 
@@ -29,6 +31,7 @@ app.use(helmet());
 
 //serving static files
 app.use(express.static(__dirname + "/public"));
+app.use(cookieParser());
 
 // setting the home directory
 app.use((req, res, next) => {
@@ -56,7 +59,7 @@ const limiter = ratelimit({
 });
 
 app.use("/api", limiter);
-app.use("/api/v1/music", musicRouter);
+app.use("/api/v1/music", isLoggedIn, musicRouter);
 app.use("/api/v1/user", userRouter);
 
 // error handling middleware

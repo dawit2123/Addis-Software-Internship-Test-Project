@@ -10,6 +10,7 @@ import {
 } from "../controllers/musicController.js";
 
 const musicRouter = express.Router();
+
 musicRouter
   .route("/")
   .get(getMusics)
