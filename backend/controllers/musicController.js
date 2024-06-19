@@ -1,5 +1,5 @@
 import catchAsync from "../utils/catchAsync.js";
-import { Music } from "../models/music/musicModel.js";
+import { Music } from "../models/musics/musicModel.js";
 import multer from "multer";
 import sharp from "sharp";
 import fs from "fs";
