@@ -8,10 +8,9 @@ let audioFilePathGlobal;
 
 export const getMusics = catchAsync(async (req, res) => {
   const data = await Music.getAllMusics();
-  res.status(200).json(
-    {
-    status:"success",
-    data
+  res.status(200).json({
+    status: "success",
+    data,
   });
 });
 export const createMusic = catchAsync(async (req, res, next) => {
@@ -40,9 +39,9 @@ export const createMusic = catchAsync(async (req, res, next) => {
     if (!req.body[field]) errors.push(field + " is required!");
   });
   if (errors.length !== 0) {
-    res.status(400).json({ 
+    res.status(400).json({
       status: "fail",
-      data: errors 
+      data: errors,
     });
   } else {
     const data = await new Music({
@@ -53,8 +52,8 @@ export const createMusic = catchAsync(async (req, res, next) => {
       audioFile: req.files["audioFile"].originalname,
     }).createMusicMethod();
     res.status(200).json({
-      status:'success',
-      data
+      status: "success",
+      data,
     });
   }
 });
@@ -94,7 +93,7 @@ export const uploadFiles = catchAsync(async (req, res, next) => {
     ) {
       cb(null, true);
     } else {
-      cb(next("Please upload only image or audio files."), false);
+      cb(next(new Error("Please upload only image or audio files.")), false);
     }
   };
 
@@ -120,15 +119,15 @@ export const updateMusic = catchAsync(async (req, res) => {
   const data = await Music.findMusicById(req.params.id);
 
   if (!data) {
-    res.status(404).json({ 
+    res.status(404).json({
       status: "fail",
-      message: "Music not found!" 
+      message: "Music not found!",
     });
   } else {
     const updatedMusic = await Music.findMusicAndUpdate(req);
     res.status(200).json({
-      status:'success',
-      updatedMusic
+      status: "success",
+      updatedMusic,
     });
   }
 });
@@ -153,10 +152,16 @@ export const deleteMusic = catchAsync(async (req, res) => {
   if (!data) {
     res.status(404).json({
       status: "fail",
-       message: "Music not found!" 
+      message: "Music not found!",
     });
   } else {
     await Music.deleteMusicStatic(req.params.id);
-    res.status(200).json({status:"success", id: req.params._id, message: "Music deleted!" });
+    res
+      .status(200)
+      .json({
+        status: "success",
+        id: req.params._id,
+        message: "Music deleted!",
+      });
   }
 });
