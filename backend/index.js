@@ -10,7 +10,6 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { fileURLToPath } from "url";
-import { createClient } from "redis"; // Updated import for Redis
 import musicRouter from "./routes/musicRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 import validateEnv from "./validate/validateEnv.js";
@@ -72,7 +71,7 @@ const initializeServer = () => {
     store: new RedisStore({
       sendCommand: (...args) => redisClient.sendCommand(args),
     }),
-    max: 10,
+    max: 200,
     windowMs: 1 * 60 * 60 * 1000,
     handler: handleRateLimitExceeded,
   });
