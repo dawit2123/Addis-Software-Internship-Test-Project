@@ -1,2 +1,0 @@
-::1 - - [20/Jun/2024:07:17:10 +0000] "GET /api/v1/music HTTP/1.1" 200 323 "-" "PostmanRuntime/7.39.0"
-::1 - - [20/Jun/2024:07:18:03 +0000] "GET /api/v1/music HTTP/1.1" 200 323 "-" "PostmanRuntime/7.39.0"
