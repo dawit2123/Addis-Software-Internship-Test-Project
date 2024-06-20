@@ -7,7 +7,7 @@ import mp3Duration from "mp3-duration";
 let audioFilePathGlobal;
 
 export const getMusics = catchAsync(async (req, res) => {
-  const data = await Music.getAllMusics();
+  const data = await Music.getAllMusics(req.userData._id);
   res.status(200).json({
     status: "success",
     data,
@@ -50,6 +50,7 @@ export const createMusic = catchAsync(async (req, res, next) => {
       duration: req.body.duration,
       coverImage: req.files["coverImage"].originalname,
       audioFile: req.files["audioFile"].originalname,
+      addedBy: req.userData._id,
     }).createMusicMethod();
     res.status(200).json({
       status: "success",
@@ -156,12 +157,10 @@ export const deleteMusic = catchAsync(async (req, res) => {
     });
   } else {
     await Music.deleteMusicStatic(req.params.id);
-    res
-      .status(200)
-      .json({
-        status: "success",
-        id: req.params._id,
-        message: "Music deleted!",
-      });
+    res.status(200).json({
+      status: "success",
+      id: req.params._id,
+      message: "Music deleted!",
+    });
   }
 });

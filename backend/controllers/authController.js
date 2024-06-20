@@ -91,7 +91,7 @@ export const isLoggedIn = catchAsync(async (req, res, next) => {
       );
     }
     // THERE IS A LOGGED IN USER
-    res.locals.user = currentUser;
+    req.userData = currentUser;
     return next();
   }
   next(new Error("You are not logged in! Please log in to get access."));
