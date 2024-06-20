@@ -27,6 +27,9 @@ const validateEnv = (req, res, next) => {
     JWT_EXPIRES_IN: Joi.string().required().messages({
       "string.base": "JWT expiration time must be a string",
     }),
+    REDIS_URL: Joi.string().required().messages({
+      "string.base": "JWT expiration time must be a string",
+    }),
   }).unknown();
   const { error } = environmnetalVaribleValidator.validate(process.env);
   if (error) {
