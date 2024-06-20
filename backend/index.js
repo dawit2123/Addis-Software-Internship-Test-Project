@@ -9,6 +9,7 @@ import compression from "compression";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import fs from "fs";
 import { fileURLToPath } from "url";
 import musicRouter from "./routes/musicRoutes.js";
 import userRouter from "./routes/userRoutes.js";
@@ -57,10 +58,22 @@ app.use(express.urlencoded({ extended: true }));
 // Compress the response body to reduce the size of the response
 app.use(compression());
 
+// Determine log file path (optional)
+const logFilePath = path.join(__dirname, "/public/morgan.log");
+// Create a write stream (choose append mode)
+const accessLogStream = fs.createWriteStream(logFilePath, { flags: "a" });
+
+// Redirecting console.log to the same log file stream
+const originalConsoleLog = console.log;
+console.log = (...args) => {
+  const logMessage = args
+    .map((arg) => (typeof arg === "object" ? JSON.stringify(arg) : arg))
+    .join(" ");
+  accessLogStream.write(`[CONSOLE.LOG] ${logMessage}\n`);
+  originalConsoleLog.apply(console, args);
+};
 // Development logging
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
-}
+app.use(morgan("combined", { stream: accessLogStream }));
 
 // Function to initialize the server
 const initializeServer = () => {
