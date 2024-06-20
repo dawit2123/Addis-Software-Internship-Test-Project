@@ -4,4 +4,4 @@
 **/*.cache
 config.env
 public/
-.log
+morgan.log
