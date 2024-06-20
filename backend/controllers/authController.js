@@ -5,12 +5,6 @@ import catchAsync from "../utils/catchAsync.js";
 import User from "../models/users/userModel.js";
 dotenv.config({ path: "config.env" });
 
-console.log(
-  process.env.JWT_SECRET,
-  process.env.JWT_EXPIRES_IN,
-  process.env.JWT_COOKIE_EXPIRES_IN
-);
-
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
