@@ -54,16 +54,11 @@ app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Compress the response body to reduce the size of the response
 app.use(compression());
 
-// Determine log file path (optional)
 const logFilePath = path.join(__dirname, "/public/morgan.log");
-// Create a write stream (choose append mode)
 const accessLogStream = fs.createWriteStream(logFilePath, { flags: "a" });
 
-// Redirecting console.log to the same log file stream
 const originalConsoleLog = console.log;
 console.log = (...args) => {
   const logMessage = args
@@ -72,7 +67,6 @@ console.log = (...args) => {
   accessLogStream.write(`[CONSOLE.LOG] ${logMessage}\n`);
   originalConsoleLog.apply(console, args);
 };
-// Development logging
 app.use(morgan("combined", { stream: accessLogStream }));
 
 // Function to initialize the server
