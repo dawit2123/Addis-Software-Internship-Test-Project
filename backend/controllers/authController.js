@@ -62,7 +62,14 @@ export const login = catchAsync(async (req, res, next) => {
   // 3) If everything is ok, send token to client
   createSendToken(user, 200, req, res);
 });
+export const logout = catchAsync(async (req, res) => {
+  res.cookie("jwt", "loggedout", {
+    expires: new Date(Date.now() + 2 * 1000),
+    httpOnly: true,
+  });
 
+  res.status(200).json({ status: "success" });
+});
 export const isLoggedIn = catchAsync(async (req, res, next) => {
   if (req.cookies.jwt) {
     // 1) verify token
