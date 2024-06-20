@@ -1,8 +1,8 @@
 import Joi from "joi";
 const validateEnv = (req, res, next) => {
   const environmnetalVaribleValidator = Joi.object({
-    MONGO_URI: Joi.string().uri().required().messages({
-      "string.uri": "Mongo URI must be a valid URI",
+    MONGO_URI: Joi.string().required().messages({
+      "string.any": "Mongo URI must be string",
     }),
     NODE_ENV: Joi.string()
       .valid("development", "production", "test")
