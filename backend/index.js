@@ -11,18 +11,20 @@ import cookieParser from "cookie-parser";
 import { fileURLToPath } from "url";
 import musicRouter from "./routes/musicRoutes.js";
 import userRouter from "./routes/userRoutes.js";
+import validateEnv from "./validate/validateEnv.js";
 import { connectDB } from "./config/database.js";
 import { isLoggedIn } from "./controllers/authController.js";
 
 dotenv.config({ path: "config.env" });
 
-//connect to the db
-connectDB();
 const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
 const __dirname = path.dirname(__filename);
 
 const app = express();
-
+//validate the environment variables
+app.use(validateEnv);
+//connect to the db
+connectDB();
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
 
