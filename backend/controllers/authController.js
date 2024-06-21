@@ -12,10 +12,10 @@ ac.grant("user").createOwn("music").readOwn("music").updateOwn("music");
 
 ac.grant("admin")
   .extend("user")
-  .createAny("music")
   .readAny("music")
   .updateAny("muisc")
-  .deleteAny("music");
+  .deleteAny("music")
+  .createAny("user");
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -116,6 +116,9 @@ export const checkPermission = (action, resource) => (req, res, next) => {
   if (permission.granted) {
     next(); // Permission granted, proceed to the next middleware/route handler
   } else {
-    res.status(403).json({ message: "You don't have the right permission." }); // Permission denied
+    res.status(403).json({
+      status: "fail",
+      message: "You don't have the right permission.",
+    }); // Permission denied
   }
 };
