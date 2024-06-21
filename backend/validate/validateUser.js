@@ -43,6 +43,10 @@ const userSignupValidation = Joi.object(
         "any.required": "Cofirm password is a required field",
         "any.only": "Confirm password does not match with the password",
       }),
+    role: Joi.string().trim().valid("user", "admin").default("user").messages({
+      "string.base": "Role should be a type of text",
+      "any.only": "Role should be either user or admin",
+    }),
   },
   "File Size Validation"
 );

@@ -26,13 +26,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please enter your password."],
     },
-    passwordResetToken: {
+    role: {
       type: String,
-      minlength: 8,
-      select: false,
-    },
-    passwordResetExpire: {
-      type: Date,
+      enum: ["user", "admin"],
+      default: "user",
     },
   },
   { timestamps: true }
