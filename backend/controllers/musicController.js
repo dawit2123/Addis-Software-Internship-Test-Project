@@ -13,6 +13,15 @@ export const getMusics = catchAsync(async (req, res) => {
     data,
   });
 });
+
+export const getAllUsersMusic = catchAsync(async (req, res) => {
+  const data = await Music.getAllUsersMusics();
+  res.status(200).json({
+    status: "success",
+    data,
+  });
+});
+
 export const createMusic = catchAsync(async (req, res, next) => {
   let required_fields = ["title", "artistName"];
   let errors = [];
@@ -117,7 +126,7 @@ export const uploadFiles = catchAsync(async (req, res, next) => {
 });
 
 export const updateMusic = catchAsync(async (req, res) => {
-  const data = await Music.findMusicById(req.params.id);
+  const data = await Music.findMusicById(req.params.id, req.userData._id);
 
   if (!data) {
     res.status(404).json({
@@ -134,7 +143,7 @@ export const updateMusic = catchAsync(async (req, res) => {
 });
 
 export const deleteMusic = catchAsync(async (req, res) => {
-  const data = await Music.findById(req.params.id);
+  const data = await Music.findById(req.params.id, req.userData._id);
   const audioFilePath = `${req.homedir}/public/audio/music/${data.audioFile}`;
   const imageFilePath = `${req.homedir}/public/img/music/${data.coverImage}.jpeg`;
 

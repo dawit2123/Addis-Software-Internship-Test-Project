@@ -1,9 +1,21 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { AccessControl } from "accesscontrol";
 import { promisify } from "util";
 import catchAsync from "../utils/catchAsync.js";
 import User from "../models/users/userModel.js";
 dotenv.config({ path: "config.env" });
+
+const ac = new AccessControl();
+// Define roles and permissions
+ac.grant("user").createOwn("music").readOwn("music").updateOwn("music");
+
+ac.grant("admin")
+  .extend("user")
+  .createAny("music")
+  .readAny("music")
+  .updateAny("muisc")
+  .deleteAny("music");
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -97,3 +109,13 @@ export const isLoggedIn = catchAsync(async (req, res, next) => {
   }
   next(new Error("You are not logged in! Please log in to get access."));
 });
+
+export const checkPermission = (action, resource) => (req, res, next) => {
+  const permission = ac.can(req.userData.role)[action](resource);
+
+  if (permission.granted) {
+    next(); // Permission granted, proceed to the next middleware/route handler
+  } else {
+    res.status(403).json({ message: "You don't have the right permission." }); // Permission denied
+  }
+};
