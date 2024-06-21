@@ -114,11 +114,11 @@ export const checkPermission = (action, resource) => (req, res, next) => {
   const permission = ac.can(req.userData.role)[action](resource);
 
   if (permission.granted) {
-    next(); // Permission granted, proceed to the next middleware/route handler
+    next();
   } else {
     res.status(403).json({
       status: "fail",
       message: "You don't have the right permission.",
-    }); // Permission denied
+    });
   }
 };
