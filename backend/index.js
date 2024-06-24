@@ -10,6 +10,10 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import fs from "fs";
+import {
+  adminJs,
+  router as adminRouter,
+} from "./controllers/adminController.js";
 import { fileURLToPath } from "url";
 import musicRouter from "./routes/musicRoutes.js";
 import userRouter from "./routes/userRoutes.js";
@@ -38,7 +42,19 @@ connectDB();
 app.use(mongoSanitize());
 
 // Set security HTTP headers
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+        styleSrc: ["'self'", "https:", "'unsafe-inline'"],
+        baseUri: ["'self'"],
+        fontSrc: ["'self'", "https:", "data:"],
+      },
+    },
+  })
+);
 
 // Serving static files
 app.use(express.static(__dirname + "/public"));
@@ -81,6 +97,16 @@ const initializeServer = () => {
     max: 200,
     windowMs: 1 * 60 * 60 * 1000,
     handler: handleRateLimitExceeded,
+  });
+
+  app.use(adminJs.options.rootPath, adminRouter);
+  // Set Content Security Policy to allow external scripts
+  app.use((req, res, next) => {
+    res.setHeader(
+      "Content-Security-Policy",
+      "script-src 'self' https://your-external-script-url"
+    );
+    next();
   });
 
   app.use("/api", limiter);
