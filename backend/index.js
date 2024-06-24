@@ -98,16 +98,7 @@ const initializeServer = () => {
     windowMs: 1 * 60 * 60 * 1000,
     handler: handleRateLimitExceeded,
   });
-
   app.use(adminJs.options.rootPath, adminRouter);
-  // Set Content Security Policy to allow external scripts
-  app.use((req, res, next) => {
-    res.setHeader(
-      "Content-Security-Policy",
-      "script-src 'self' https://your-external-script-url"
-    );
-    next();
-  });
 
   app.use("/api", limiter);
 

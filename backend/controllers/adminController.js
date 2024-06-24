@@ -13,20 +13,10 @@ const result = dotenv.config({
   path: path.resolve(`${__dirname}../../`, `config.env`),
 });
 
-if (result.error) {
-  console.error("Error loading .env file:", result.error);
-} else {
-  console.log("Parsed .env file:", result.parsed);
-}
-
-console.log(
-  "The process.env file is",
-  process.env.ADMIN_EMAIL,
-  process.env.ADMIN_PASSWORD,
-  process.env.SECRET_KEY
-);
-
-AdminJs.registerAdapter(AdminJsMongoose);
+AdminJs.registerAdapter({
+  Database: AdminJsMongoose.Database,
+  Resource: AdminJsMongoose.Resource,
+});
 
 const adminJs = new AdminJs({
   resources: [
@@ -36,6 +26,13 @@ const adminJs = new AdminJs({
         parent: {
           name: "User Management",
         },
+        listProperties: [
+          "firstName",
+          "lastName",
+          "profileImage",
+          "email",
+          "role",
+        ],
       },
     },
     {
@@ -44,6 +41,7 @@ const adminJs = new AdminJs({
         parent: {
           name: "Music Management",
         },
+        listProperties: ["title", "artistName", "duration"],
       },
     },
   ],
@@ -55,15 +53,5 @@ const ADMIN = {
   password: process.env.ADMIN_PASSWORD,
 };
 
-const router = AdminJsExpress.buildAuthenticatedRouter(adminJs, {
-  authenticate: async (email, password) => {
-    if (email === ADMIN.email && password === ADMIN.password) {
-      return ADMIN;
-    }
-    return null;
-  },
-  cookieName: "adminCookie",
-  cookiePassword: process.env.SECRET_KEY,
-});
-
+const router = AdminJsExpress.buildRouter(adminJs);
 export { adminJs, router };
