@@ -11,12 +11,10 @@ import dotenv from "dotenv";
 
 // Directory setup
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
 // Load environment variables
 const result = dotenv.config({
   path: path.resolve(`${__dirname}../../`, `config.env`),
 });
-
 AdminJs.registerAdapter({
   Database: AdminJsMongoose.Database,
   Resource: AdminJsMongoose.Resource,
@@ -32,7 +30,7 @@ const adminJs = new AdminJs({
           name: "User Management",
         },
         properties: {
-          properties: { password: { isVisible: false } },
+          password: { isVisible: false },
         },
         listProperties: [
           "firstName",
@@ -42,17 +40,7 @@ const adminJs = new AdminJs({
           "role",
         ],
         showProperties: ["firstName", "lastName", "email", "role"],
-        editProperties: ["firstName", "lastName", "email", "role", "password"],
-        features: [
-          passwordsFeature({
-            properties: {
-              componentLoader,
-              encryptedPassword: "password",
-              password: "password",
-            },
-            hash: (password) => bcrypt.hash(password, 12),
-          }),
-        ],
+        editProperties: ["firstName", "lastName", "email", "role"],
       },
     },
     {
@@ -63,6 +51,7 @@ const adminJs = new AdminJs({
         },
         listProperties: ["title", "artistName", "duration"],
         editProperties: ["title", "artistName", "duration"],
+        showProperties: ["title", "_id", "artistName", "duration", "addedBy"],
       },
     },
   ],
@@ -76,15 +65,6 @@ const ADMIN = {
 };
 
 // Build and export the router
-const router = AdminJsExpress.buildAuthenticatedRouter(adminJs, {
-  authenticate: async (email, password) => {
-    if (email === ADMIN.email && password === ADMIN.password) {
-      return ADMIN;
-    }
-    return null;
-  },
-  cookieName: process.env.ADMIN_COOKIE_NAME,
-  cookiePassword: process.env.ADMIN_COOKIE_PASSWORD,
-});
+const router = AdminJsExpress.buildRouter(adminJs);
 
 export { adminJs, router };
