@@ -61,12 +61,6 @@ const adminJs = new AdminJs({
   rootPath: "/admin",
 });
 
-// Admin credentials
-const ADMIN = {
-  email: process.env.ADMIN_EMAIL,
-  password: process.env.ADMIN_PASSWORD,
-};
-
 // Build and export the router
 const router = AdminJsExpress.buildRouter(adminJs);
 
