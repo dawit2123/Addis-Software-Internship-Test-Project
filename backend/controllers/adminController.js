@@ -12,7 +12,6 @@ AdminJs.registerAdapter({
   Resource: AdminJsMongoose.Resource,
 });
 
-// Define the AdminJS instance with resources
 const adminJs = new AdminJs({
   resources: [
     {
