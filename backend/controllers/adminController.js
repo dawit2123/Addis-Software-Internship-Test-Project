@@ -1,11 +1,8 @@
 import AdminJs, { Edit } from "adminjs";
 import AdminJsExpress from "@adminjs/express";
 import * as AdminJsMongoose from "@adminjs/mongoose";
-import path from "path";
 import { Music } from "../models/musics/musicModel.js";
 import User from "../models/users/userModel.js";
-import { fileURLToPath } from "url";
-import dotenv from "dotenv";
 
 AdminJs.registerAdapter({
   Database: AdminJsMongoose.Database,
