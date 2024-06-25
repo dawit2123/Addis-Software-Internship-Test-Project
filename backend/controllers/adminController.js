@@ -30,17 +30,22 @@ const adminJs = new AdminJs({
           name: "User Management",
         },
         properties: {
-          password: { isVisible: false },
+          encryptedPassword: {
+            isVisible: false,
+          },
+          password: {
+            type: "password",
+            isVisible: {
+              list: false,
+              show: false,
+              edit: true,
+              filter: false,
+            },
+          },
         },
-        listProperties: [
-          "firstName",
-          "lastName",
-          "profileImage",
-          "email",
-          "role",
-        ],
+        listProperties: ["firstName", "lastName", "email", "role"],
         showProperties: ["firstName", "lastName", "email", "role"],
-        editProperties: ["firstName", "lastName", "email", "role"],
+        editProperties: ["firstName", "lastName", "email", "role", "password"],
       },
     },
     {
