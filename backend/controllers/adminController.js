@@ -36,7 +36,7 @@ const adminJs = new AdminJs({
             isVisible: {
               list: false,
               show: false,
-              edit: true,
+              edit: false,
               filter: false,
             },
           },
