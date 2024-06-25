@@ -1,9 +1,7 @@
 import AdminJs, { Edit } from "adminjs";
 import AdminJsExpress from "@adminjs/express";
 import * as AdminJsMongoose from "@adminjs/mongoose";
-import passwordsFeature from "@adminjs/passwords";
 import path from "path";
-import bcrypt from "bcryptjs";
 import { Music } from "../models/musics/musicModel.js";
 import User from "../models/users/userModel.js";
 import { fileURLToPath } from "url";
