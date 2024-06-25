@@ -7,12 +7,6 @@ import User from "../models/users/userModel.js";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 
-// Directory setup
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-// Load environment variables
-const result = dotenv.config({
-  path: path.resolve(`${__dirname}../../`, `config.env`),
-});
 AdminJs.registerAdapter({
   Database: AdminJsMongoose.Database,
   Resource: AdminJsMongoose.Resource,
